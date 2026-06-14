@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="Prime Telecom"/>
+<title>Prime Telecom Chandpur</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap');
+:root{--bg:#0f1117;--surface:#181c27;--card:#1e2333;--border:#2a2f42;--accent:#4f8ef7;--green:#22c55e;--yellow:#f59e0b;--red:#ef4444;--text:#e8eaf0;--muted:#7b82a0;--radius:12px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+.shop-header{background:linear-gradient(135deg,#1a237e,#283593,#1565c0);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 16px rgba(0,0,0,0.4);}
+.shop-name{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:#fff;}
+.shop-phone{font-size:13px;color:#90caf9;margin-top:2px;font-weight:500;}
+.sync-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;}
+.sync-bar{font-size:11px;margin-top:4px;display:flex;align-items:center;gap:6px;}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom);}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 4px 8px;cursor:pointer;color:var(--muted);font-size:10px;font-weight:600;gap:4px;transition:color 0.15s;}
+.bn-item.active{color:var(--accent);}
+.bn-icon{font-size:18px;}
+.main{padding:16px;padding-bottom:80px;max-width:680px;margin:0 auto;}
+.page{display:none;}.page.active{display:block;}
+.page-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-bottom:16px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px;}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 10px;text-align:center;}
+.stat-label{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;}
+.stat-value{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-top:4px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all 0.15s;}
+.btn-primary{background:var(--accent);color:#fff;width:100%;justify-content:center;}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border);}
+.btn-sm{padding:5px 10px;font-size:11px;}
+.btn-danger{background:rgba(239,68,68,0.12);color:var(--red);border:1px solid rgba(239,68,68,0.3);}
+.btn-green{background:rgba(34,197,94,0.12);color:var(--green);border:1px solid rgba(34,197,94,0.3);}
+.btn-yellow{background:rgba(245,158,11,0.12);color:var(--yellow);border:1px solid rgba(245,158,11,0.3);}
+.btn-blue{background:rgba(79,142,247,0.15);color:var(--accent);border:1px solid rgba(79,142,247,0.3);}
+.btn-purple{background:rgba(124,58,237,0.15);color:#a78bfa;border:1px solid rgba(124,58,237,0.3);}
+.fab{position:fixed;bottom:80px;right:20px;width:52px;height:52px;border-radius:50%;background:var(--accent);color:#fff;font-size:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 20px rgba(79,142,247,0.4);z-index:90;border:none;}
+.search-wrap{position:relative;margin-bottom:14px;}
+.search-wrap input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 14px 11px 38px;color:var(--text);font-size:14px;outline:none;}
+.search-wrap input:focus{border-color:var(--accent);}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+.badge-pending{background:rgba(245,158,11,0.15);color:var(--yellow);}
+.badge-progress{background:rgba(79,142,247,0.15);color:var(--accent);}
+.badge-done{background:rgba(34,197,94,0.15);color:var(--green);}
+.badge-delivered{background:rgba(124,58,237,0.15);color:#a78bfa;}
+.badge-sw{background:rgba(34,197,94,0.15);color:var(--green);}
+.badge-unlock{background:rgba(245,158,11,0.15);color:var(--yellow);}
+.badge-low{background:rgba(239,68,68,0.15);color:var(--red);}
+.badge-ok{background:rgba(34,197,94,0.15);color:var(--green);}
+.badge-sale{background:rgba(124,58,237,0.15);color:#a78bfa;}
+.job-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;}
+.job-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
+.job-id{font-size:11px;color:var(--muted);font-weight:600;}
+.job-cust{font-size:15px;font-weight:600;}
+.job-device{font-size:12px;color:var(--muted);}
+.job-issue{font-size:13px;margin:6px 0;}
+.job-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;}
+.job-charge{font-size:16px;font-weight:700;color:var(--green);}
+.job-actions{display:flex;gap:5px;flex-wrap:wrap;}
+.id-indicator{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--yellow);background:rgba(245,158,11,0.1);border-radius:6px;padding:2px 8px;margin-top:4px;}
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:500;align-items:flex-end;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:20px 20px 0 0;width:100%;max-width:600px;padding:24px 20px 32px;position:relative;max-height:92vh;overflow-y:auto;}
+.modal-handle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 20px;}
+.modal-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-bottom:18px;}
+.modal-close{position:absolute;top:20px;right:20px;background:var(--surface);border:1px solid var(--border);color:var(--muted);font-size:15px;cursor:pointer;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.form-group{margin-bottom:14px;}
+.form-label{display:block;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;}
+.form-input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:11px 14px;color:var(--text);font-size:14px;outline:none;}
+.form-input:focus{border-color:var(--accent);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.modal-actions{display:flex;gap:10px;margin-top:18px;}
+.modal-actions .btn{flex:1;justify-content:center;}
+/* AADHAAR */
+.aadhaar-section{background:var(--surface);border:1px dashed rgba(245,158,11,0.4);border-radius:10px;padding:14px;margin-bottom:14px;}
+.aadhaar-title{font-size:13px;font-weight:600;color:var(--yellow);margin-bottom:12px;}
+.photo-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.photo-box{border:1.5px dashed var(--border);border-radius:8px;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;background:var(--bg);}
+.photo-box img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.photo-box-label{font-size:10px;color:var(--muted);text-align:center;margin-top:4px;font-weight:600;text-transform:uppercase;}
+.photo-icon{font-size:20px;margin-bottom:2px;}
+.photo-caption{font-size:10px;color:var(--muted);}
+.photo-remove{position:absolute;top:4px;right:4px;background:rgba(239,68,68,0.85);color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;}
+/* Photo buttons */
+.photo-btns{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px;}
+/* ID RECORDS */
+.id-record{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;}
+.id-photos{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+.id-photo-thumb{border-radius:6px;overflow:hidden;aspect-ratio:16/9;background:var(--surface);cursor:pointer;}
+.id-photo-thumb img{width:100%;height:100%;object-fit:cover;}
+.id-photo-thumb.empty{display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--muted);}
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:999;align-items:center;justify-content:center;}
+.lightbox.open{display:flex;}
+.lightbox img{max-width:95vw;max-height:90vh;border-radius:8px;object-fit:contain;}
+.lightbox-close{position:absolute;top:20px;right:20px;color:#fff;font-size:28px;cursor:pointer;background:none;border:none;}
+/* INVENTORY */
+.inv-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;}
+.inv-top{display:flex;justify-content:space-between;align-items:flex-start;}
+.inv-name{font-size:14px;font-weight:600;margin-bottom:4px;}
+.inv-meta{font-size:12px;color:var(--muted);}
+.inv-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:10px;}
+.stock-bar{height:4px;background:var(--border);border-radius:4px;margin-top:6px;width:100px;}
+.stock-fill{height:100%;border-radius:4px;}
+/* SALES */
+.sale-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;}
+.sale-top{display:flex;justify-content:space-between;align-items:flex-start;}
+/* BILL ITEMS TABLE */
+.bill-items{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px;}
+.bill-items th{text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--muted);font-size:11px;font-weight:600;text-transform:uppercase;}
+.bill-items td{padding:8px;border-bottom:1px solid rgba(255,255,255,0.04);}
+.bill-item-row{display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+/* FILTER */
+.filter-row{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px;}
+.filter-chip{padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;}
+.filter-chip.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+/* SPINNER */
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.6s linear infinite;vertical-align:middle;}
+@keyframes spin{to{transform:rotate(360deg);}}
+/* TOAST */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:#1e293b;color:#fff;padding:11px 22px;border-radius:30px;font-size:13px;font-weight:600;z-index:9999;opacity:0;transition:all 0.3s;white-space:nowrap;border:1px solid var(--border);}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted);}
+.empty-icon{font-size:40px;margin-bottom:10px;}
+.empty-state h3{color:var(--text);font-size:15px;}
+/* PRINT */
+#print-area{display:none;}
+@media print{body>*{display:none !important;}#print-area{display:block !important;}}
+.slip-page{font-family:Arial,sans-serif;background:#fff;color:#111;width:100%;padding:10mm 12mm;box-sizing:border-box;}
+.slip-header{border-bottom:3px solid #1a237e;padding-bottom:8px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:flex-start;}
+.slip-shop-name{font-size:20px;font-weight:800;color:#1a237e;}
+.slip-shop-sub{font-size:11px;color:#555;margin-top:2px;}
+.slip-title-bar{background:#1a237e;color:#fff;padding:7px 12px;border-radius:6px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:700;}
+.slip-section{margin-bottom:12px;}
+.slip-section-title{font-size:10px;font-weight:700;color:#1a237e;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #dde;padding-bottom:3px;margin-bottom:8px;}
+.slip-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;}
+.slip-field label{font-size:10px;color:#666;font-weight:600;text-transform:uppercase;}
+.slip-field p{font-size:13px;font-weight:600;margin-top:1px;border-bottom:1px solid #eee;padding-bottom:3px;}
+.slip-photos{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.slip-photo-box{border:1px solid #bbb;border-radius:6px;overflow:hidden;}
+.slip-photo-box img{width:100%;display:block;max-height:110px;object-fit:cover;}
+.slip-photo-label{font-size:10px;color:#555;font-weight:600;text-align:center;padding:4px;background:#eee;text-transform:uppercase;}
+.slip-photo-empty{height:90px;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:12px;}
+.slip-footer{margin-top:16px;border-top:1px solid #ddd;padding-top:8px;display:flex;justify-content:space-between;align-items:flex-end;}
+.slip-sig{border-top:1px solid #999;width:130px;text-align:center;padding-top:3px;font-size:10px;color:#666;}
+/* BILL SLIP */
+.bill-slip-items{width:100%;border-collapse:collapse;margin:8px 0;}
+.bill-slip-items th{text-align:left;padding:5px 8px;border-bottom:2px solid #1a237e;font-size:11px;color:#1a237e;text-transform:uppercase;}
+.bill-slip-items td{padding:6px 8px;border-bottom:1px solid #eee;font-size:12px;}
+.bill-total-row{background:#f0f4ff;}
+.bill-total-row td{font-weight:700;font-size:13px;color:#1a237e;}
+@media(min-width:600px){.modal{border-radius:16px;margin:auto;max-height:85vh;}.modal-overlay{align-items:center;}.stats-row{grid-template-columns:repeat(6,1fr);}}
+</style>
+</head>
+<body>
+
+
+<!-- FIREBASE SETUP WARNING (shows if config not set) -->
+<div id="fb-setup-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#1e2333;border:1px solid #4f8ef7;border-radius:16px;padding:24px;max-width:500px;width:100%">
+    <div style="font-size:28px;text-align:center;margin-bottom:8px">🔥</div>
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;text-align:center;color:#4f8ef7;margin-bottom:6px">Firebase Setup Required</div>
+    <div style="font-size:13px;color:#7b82a0;text-align:center;margin-bottom:18px">Ek baar setup karo, phir mobile/desktop dono pe kaam karega</div>
+    <div style="background:#0f1117;border-radius:10px;padding:16px;font-size:13px;line-height:2;color:#e8eaf0">
+      <b style="color:#f59e0b">Step 1:</b> <a href="https://console.firebase.google.com" target="_blank" style="color:#4f8ef7">console.firebase.google.com</a> pe jao<br/>
+      <b style="color:#f59e0b">Step 2:</b> "Add project" → project naam do → Continue<br/>
+      <b style="color:#f59e0b">Step 3:</b> Google Analytics → Disable → Create Project<br/>
+      <b style="color:#f59e0b">Step 4:</b> Left menu → Build → <b>Realtime Database</b><br/>
+      <b style="color:#f59e0b">Step 5:</b> "Create Database" → Asia Southeast → <b>Test mode</b> → Enable<br/>
+      <b style="color:#f59e0b">Step 6:</b> Project Settings (⚙️) → General → "Add app" → Web (&lt;/&gt;)<br/>
+      <b style="color:#f59e0b">Step 7:</b> App naam do → Register → <b>firebaseConfig copy karo</b><br/>
+      <b style="color:#22c55e">✅ Step 8:</b> Firebase config already set hai — kuch karne ki zaroorat nahi!
+    </div>
+    <div style="margin-top:14px;padding:12px;background:rgba(79,142,247,0.1);border-radius:8px;font-size:12px;color:#7b82a0">
+      💡 <b style="color:#e8eaf0">Bilkul free hai</b> — Firebase ka free plan (Spark) kafi hai is app ke liye.<br/>
+      ⚡ Ek baar setup ke baad app normal kaam karega, ye popup nahi aayega.
+    </div>
+    <button onclick="document.getElementById('fb-setup-overlay').style.display='none'" style="margin-top:14px;width:100%;padding:12px;background:#4f8ef7;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">Samajh gaya, baad mein setup karunga</button>
+  </div>
+</div>
+
+<div class="shop-header">
+  <div>
+    <div class="shop-name">📱 Prime Telecom Chandpur</div>
+    <div class="shop-phone">📞 9719216912</div>
+    <div class="sync-bar" id="sync-bar">
+      <span class="sync-dot" id="sync-dot" style="background:var(--yellow)"></span>
+      <span id="sync-text" style="color:var(--yellow);font-size:11px;font-weight:600">Connecting...</span>
+    </div>
+  </div>
+  <div style="font-size:26px">🔧</div>
+</div>
+
+<div class="main">
+  <!-- DASHBOARD -->
+  <div class="page active" id="page-dashboard">
+    <div class="page-title">Dashboard</div>
+    <div class="stats-row" id="stats-row"></div>
+    <div class="card"><div style="font-weight:600;margin-bottom:10px;font-size:14px">📋 Recent Jobs</div><div id="dash-recent"></div></div>
+    <div class="card"><div style="font-weight:600;margin-bottom:10px;font-size:14px">⚠️ Low Stock</div><div id="dash-lowstock"></div></div>
+  </div>
+
+  <!-- JOBS -->
+  <div class="page" id="page-jobs">
+    <div class="page-title">Job Cards</div>
+    <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" placeholder="Search name, mobile, model, IMEI..." oninput="filterJobs(this.value)"/></div>
+    <div class="filter-row" id="job-filter-row">
+      <div class="filter-chip active" onclick="setJobFilter('',this)">All</div>
+      <div class="filter-chip" onclick="setJobFilter('Pending',this)">Pending</div>
+      <div class="filter-chip" onclick="setJobFilter('In Progress',this)">In Progress</div>
+      <div class="filter-chip" onclick="setJobFilter('Done',this)">Done</div>
+      <div class="filter-chip" onclick="setJobFilter('Delivered',this)">Delivered</div>
+      <div class="filter-chip" onclick="setJobFilter('Software',this)">Software</div>
+      <div class="filter-chip" onclick="setJobFilter('Unlocking',this)">Unlocking</div>
+    </div>
+    <div id="jobs-list"></div>
+  </div>
+
+  <!-- SALES / BILLING -->
+  <div class="page" id="page-sales">
+    <div class="page-title">💰 Sales & Bills</div>
+    <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" placeholder="Search customer, item..." oninput="filterSales(this.value)"/></div>
+    <div id="sales-list"></div>
+  </div>
+
+  <!-- ID RECORDS -->
+  <div class="page" id="page-ids">
+    <div class="page-title">🪪 ID Records</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:14px">Software & Unlocking — Aadhaar records</div>
+    <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" placeholder="Search name, mobile, model, IMEI..." oninput="filterIdRecords(this.value)"/></div>
+    <div id="id-records-list"></div>
+  </div>
+
+  <!-- INVENTORY -->
+  <div class="page" id="page-inventory">
+    <div class="page-title">Stock & Parts</div>
+    <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" placeholder="Search parts & accessories..." oninput="filterInventoryAll(this.value)"/></div>
+    <div class="filter-row">
+      <div class="filter-chip active" onclick="setInvFilter('all',this)">All</div>
+      <div class="filter-chip" onclick="setInvFilter('part',this)">Parts</div>
+      <div class="filter-chip" onclick="setInvFilter('accessory',this)">Accessories</div>
+      <div class="filter-chip" onclick="setInvFilter('low',this)">⚠️ Low Stock</div>
+    </div>
+    <div id="inventory-list"></div>
+  </div>
+
+  <!-- CUSTOMERS -->
+  <div class="page" id="page-customers">
+    <div class="page-title">Customers</div>
+    <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" placeholder="Search customers..." oninput="filterCustomers(this.value)"/></div>
+    <div id="customers-list"></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bn-item active" onclick="showPage('dashboard',this)" id="bn-dashboard"><span class="bn-icon">🏠</span>Home</div>
+  <div class="bn-item" onclick="showPage('jobs',this)" id="bn-jobs"><span class="bn-icon">📋</span>Jobs</div>
+  <div class="bn-item" onclick="showPage('sales',this)" id="bn-sales"><span class="bn-icon">💰</span>Sales</div>
+  <div class="bn-item" onclick="showPage('ids',this)" id="bn-ids"><span class="bn-icon">🪪</span>ID</div>
+  <div class="bn-item" onclick="showPage('inventory',this)" id="bn-inventory"><span class="bn-icon">📦</span>Stock</div>
+  <div class="bn-item" onclick="showPage('customers',this)" id="bn-customers"><span class="bn-icon">👥</span>Customers</div>
+</nav>
+<button class="fab" onclick="handleFab()">＋</button>
+
+<!-- ===== JOB MODAL ===== -->
+<div class="modal-overlay" id="job-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <button class="modal-close" onclick="closeModal('job-modal')">✕</button>
+    <div class="modal-title" id="job-modal-title">New Job Card</div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Customer Name *</label><input class="form-input" id="j-name" placeholder="Full name"/></div>
+      <div class="form-group"><label class="form-label">Mobile *</label><input class="form-input" id="j-phone" type="tel" placeholder="10 digit"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Brand *</label><input class="form-input" id="j-brand" placeholder="Samsung, Redmi..."/></div>
+      <div class="form-group"><label class="form-label">Model *</label><input class="form-input" id="j-model" placeholder="A54, Note 12..."/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">IMEI Number</label><input class="form-input" id="j-imei" placeholder="15-digit IMEI" maxlength="20"/></div>
+      <div class="form-group"><label class="form-label">Service Type *</label>
+        <select class="form-input" id="j-type" onchange="handleServiceTypeChange()">
+          <option value="Repair">Repair</option>
+          <option value="Software">Software</option>
+          <option value="Unlocking">Unlocking</option>
+          <option value="Accessories">Accessories Sale</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Issue / Work *</label><input class="form-input" id="j-issue" placeholder="Problem description"/></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Status</label>
+        <select class="form-input" id="j-status"><option>Pending</option><option>In Progress</option><option>Done</option><option>Delivered</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Charge (₹)</label><input class="form-input" id="j-charge" type="number" placeholder="0"/></div>
+    </div>
+
+    <!-- AADHAAR SECTION -->
+    <div class="aadhaar-section" id="aadhaar-section" style="display:none">
+      <div class="aadhaar-title">🪪 Aadhaar / ID Proof (Required for Software & Unlocking)</div>
+      <div class="photo-row">
+        <div>
+          <div class="photo-box" id="front-box">
+            <div class="photo-icon">🪪</div>
+            <div class="photo-caption">Aadhaar Front</div>
+            <img id="front-img" src="" style="display:none"/>
+            <button class="photo-remove" id="front-remove" style="display:none" onclick="removePhoto(event,'front')">✕</button>
+          </div>
+          <div class="photo-btns">
+            <button class="btn btn-blue btn-sm" style="justify-content:center;width:100%" onclick="capturePhoto('front')">📷 Camera</button>
+            <button class="btn btn-ghost btn-sm" style="justify-content:center;width:100%" onclick="galleryPhoto('front')">🖼️ Gallery</button>
+          </div>
+          <div class="photo-box-label">Aadhaar Front</div>
+        </div>
+        <div>
+          <div class="photo-box" id="back-box">
+            <div class="photo-icon">🪪</div>
+            <div class="photo-caption">Aadhaar Back</div>
+            <img id="back-img" src="" style="display:none"/>
+            <button class="photo-remove" id="back-remove" style="display:none" onclick="removePhoto(event,'back')">✕</button>
+          </div>
+          <div class="photo-btns">
+            <button class="btn btn-blue btn-sm" style="justify-content:center;width:100%" onclick="capturePhoto('back')">📷 Camera</button>
+            <button class="btn btn-ghost btn-sm" style="justify-content:center;width:100%" onclick="galleryPhoto('back')">🖼️ Gallery</button>
+          </div>
+          <div class="photo-box-label">Aadhaar Back</div>
+        </div>
+      </div>
+      <!-- Camera input (capture from camera only) -->
+      <input type="file" id="camera-front" accept="image/*" capture="environment" style="display:none" onchange="handlePhotoCapture(event,'front')"/>
+      <input type="file" id="camera-back" accept="image/*" capture="environment" style="display:none" onchange="handlePhotoCapture(event,'back')"/>
+      <!-- Gallery input (no capture attribute = opens gallery/file picker) -->
+      <input type="file" id="gallery-front" accept="image/*" style="display:none" onchange="handlePhotoCapture(event,'front')"/>
+      <input type="file" id="gallery-back" accept="image/*" style="display:none" onchange="handlePhotoCapture(event,'back')"/>
+    </div>
+
+    <div class="form-group"><label class="form-label">Notes</label><input class="form-input" id="j-notes" placeholder="Optional..."/></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('job-modal')">Cancel</button>
+      <button class="btn btn-primary" id="save-job-btn" onclick="saveJob()">💾 Save Job</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SALE / BILL MODAL ===== -->
+<div class="modal-overlay" id="sale-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <button class="modal-close" onclick="closeModal('sale-modal')">✕</button>
+    <div class="modal-title" id="sale-modal-title">New Sale / Bill</div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Customer Name *</label><input class="form-input" id="s-name" placeholder="Customer name"/></div>
+      <div class="form-group"><label class="form-label">Mobile</label><input class="form-input" id="s-phone" type="tel" placeholder="Optional"/></div>
+    </div>
+    <!-- Bill Items -->
+    <div class="form-group">
+      <label class="form-label">Items Sold</label>
+      <div id="bill-items-list"></div>
+      <button class="btn btn-ghost" style="margin-top:8px;width:100%;justify-content:center" onclick="addBillItem()">＋ Add Item</button>
+    </div>
+    <div style="background:var(--surface);border-radius:8px;padding:12px;margin-bottom:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:14px;font-weight:600">Total Amount</span>
+        <span style="font-size:20px;font-weight:700;color:var(--green)" id="bill-total-display">₹0</span>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Notes</label><input class="form-input" id="s-notes" placeholder="Optional..."/></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('sale-modal')">Cancel</button>
+      <button class="btn btn-primary" id="save-sale-btn" onclick="saveSale()">💾 Save Bill</button>
+    </div>
+  </div>
+</div>
+
+<!-- INVENTORY MODAL -->
+<div class="modal-overlay" id="inv-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <button class="modal-close" onclick="closeModal('inv-modal')">✕</button>
+    <div class="modal-title" id="inv-modal-title">Add Item</div>
+    <div class="form-group"><label class="form-label">Type</label><select class="form-input" id="inv-type"><option value="part">Spare Part</option><option value="accessory">Accessory</option></select></div>
+    <div class="form-group"><label class="form-label">Item Name *</label><input class="form-input" id="inv-name" placeholder="e.g. Samsung A54 Display"/></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Category/Brand</label><input class="form-input" id="inv-cat" placeholder="Display/Anker"/></div>
+      <div class="form-group"><label class="form-label">Compatible/Model</label><input class="form-input" id="inv-compat" placeholder="Samsung A54"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Stock Qty</label><input class="form-input" id="inv-stock" type="number" placeholder="0"/></div>
+      <div class="form-group"><label class="form-label">Min Alert</label><input class="form-input" id="inv-min" type="number" placeholder="2"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Buy Price (₹)</label><input class="form-input" id="inv-buy" type="number" placeholder="0"/></div>
+      <div class="form-group"><label class="form-label">Sell Price (₹)</label><input class="form-input" id="inv-sell" type="number" placeholder="0"/></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('inv-modal')">Cancel</button>
+      <button class="btn btn-primary" id="save-inv-btn" onclick="saveInventory()">💾 Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- STATUS MODAL -->
+<div class="modal-overlay" id="status-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <button class="modal-close" onclick="closeModal('status-modal')">✕</button>
+    <div class="modal-title">Update Status</div>
+    <div id="status-job-info" style="color:var(--muted);font-size:13px;margin-bottom:16px"></div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <button class="btn btn-yellow" style="width:100%;justify-content:center" onclick="updateStatus('Pending')">⏳ Pending</button>
+      <button class="btn btn-primary" onclick="updateStatus('In Progress')">🔧 In Progress</button>
+      <button class="btn btn-green" onclick="updateStatus('Done')">✅ Done</button>
+      <button class="btn btn-purple" onclick="updateStatus('Delivered')">📦 Delivered</button>
+    </div>
+  </div>
+</div>
+
+<!-- FAB OPTIONS MODAL -->
+<div class="modal-overlay" id="fab-modal">
+  <div class="modal" style="max-width:380px">
+    <div class="modal-handle"></div>
+    <div class="modal-title">New Entry</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <button class="btn btn-primary" onclick="closeModal('fab-modal');openJobModal()">📋 New Job Card</button>
+      <button class="btn btn-purple" onclick="closeModal('fab-modal');openSaleModal()">💰 New Sale / Bill</button>
+      <button class="btn btn-green" onclick="closeModal('fab-modal');openInvModal()">📦 Add Stock Item</button>
+      <button class="btn btn-ghost" onclick="closeModal('fab-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt=""/>
+</div>
+<div class="toast" id="toast"></div>
+<div id="print-area"></div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getDatabase, ref, set, get, remove, onValue, child } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+  // ===== FIREBASE CONFIG =====
+  // ⚠️ APNA FIREBASE CONFIG YAHAN PASTE KARO (README dekho)
+  const firebaseConfig = {
+    apiKey: "AIzaSyA1LvrXjmOSfT6w8DA5n07agHybXCRwgwo",
+    authDomain: "prime-telecom-chandpur.firebaseapp.com",
+    databaseURL: "https://prime-telecom-chandpur-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "prime-telecom-chandpur",
+    storageBucket: "prime-telecom-chandpur.firebasestorage.app",
+    messagingSenderId: "293779170928",
+    appId: "1:293779170928:web:e137cbd355fc0d367f36b5"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  window._fbDb = db;
+  window._fbRef = ref;
+  window._fbSet = set;
+  window._fbGet = get;
+  window._fbRemove = remove;
+  window._fbChild = child;
+  window._fbReady = true;
+
+  // Auto-reload data when Firebase changes
+  const rootRef = ref(db, '/');
+  onValue(rootRef, (snapshot) => {
+    if(window._fbSuppressReload) return;
+    if(typeof loadAll === 'function') loadAll();
+  });
+</script>
+<script>
+// ===== FIREBASE HELPER FUNCTIONS =====
+function waitFb(){
+  return new Promise(resolve=>{
+    if(window._fbReady) return resolve();
+    const iv=setInterval(()=>{if(window._fbReady){clearInterval(iv);resolve();}},50);
+  });
+}
+async function fbGet(table){
+  await waitFb();
+  const snap=await window._fbGet(window._fbRef(window._fbDb,table));
+  if(!snap.exists()) return [];
+  const val=snap.val();
+  return Object.values(val);
+}
+async function fbSet(table,row){
+  await waitFb();
+  window._fbSuppressReload=true;
+  await window._fbSet(window._fbRef(window._fbDb,table+'/'+row.id),row);
+  setTimeout(()=>{window._fbSuppressReload=false;},500);
+}
+async function fbDelete(table,id){
+  await waitFb();
+  window._fbSuppressReload=true;
+  await window._fbRemove(window._fbRef(window._fbDb,table+'/'+id));
+  setTimeout(()=>{window._fbSuppressReload=false;},500);
+}
+
+// Alias functions (sbUpsert/sbDelete replaced by Firebase)
+async function sbUpsert(t,row){ return fbSet(t,row); }
+async function sbDelete(t,id){ return fbDelete(t,id); }
+
+// ===== DATA =====
+let data={jobs:[],inventory:[],customers:[],sales:[]};
+let currentPage='dashboard';
+let jobSearchQ='',jobStatusF='',invSearchQ='',invTypeF='all',custSearchQ='',idSearchQ='',salesSearchQ='';
+let editingJobId=null,editingInvId=null,editingSaleId=null,statusJobId=null;
+let photoDataFront='',photoDataBack='';
+let billItems=[];
+
+// ===== SYNC =====
+function setSyncUI(state){
+  const dot=document.getElementById('sync-dot');
+  const txt=document.getElementById('sync-text');
+  if(state==='ok'){dot.style.background='var(--green)';txt.style.color='var(--green)';txt.textContent='☁️ Online · Synced';}
+  else if(state==='err'){dot.style.background='var(--red)';txt.style.color='var(--red)';txt.textContent='❌ Offline';}
+  else{dot.style.background='var(--yellow)';txt.style.color='var(--yellow)';txt.textContent='⏳ Syncing...';}
+}
+
+async function loadAll(){
+  setSyncUI('loading');
+  try{
+    const [jobs,inv,custs,sales]=await Promise.all([
+      fbGet('jobs'),
+      fbGet('inventory'),
+      fbGet('customers'),
+      fbGet('sales')
+    ]);
+    data.jobs=jobs.map(j=>({id:j.id,name:j.name,phone:j.phone,brand:j.brand,model:j.model,imei:j.imei||'',type:j.type,issue:j.issue,status:j.status,charge:j.charge||0,notes:j.notes||'',date:j.date,aadhaar:{front:j.aadhaar_front||'',back:j.aadhaar_back||''}}));
+    data.inventory=inv.map(i=>({id:i.id,itype:i.itype,name:i.name,cat:i.cat||'',compat:i.compat||'',stock:i.stock||0,minStock:i.min_stock||2,buy:i.buy||0,sell:i.sell||0}));
+    data.customers=custs.map(c=>({name:c.name,phone:c.phone,lastVisit:c.last_visit||''})).sort((a,b)=>a.name.localeCompare(b.name));
+    data.sales=sales.map(s=>({id:s.id,name:s.name,phone:s.phone||'',items:typeof s.items==='string'?JSON.parse(s.items||'[]'):s.items||[],total:s.total||0,notes:s.notes||'',date:s.date}));
+    setSyncUI('ok');
+    refreshPage();
+  }catch(e){
+    setSyncUI('err');
+    toast('❌ Cloud connection failed. Check internet.');
+    refreshPage();
+  }
+}
+
+function refreshPage(){
+  if(currentPage==='dashboard')renderDashboard();
+  if(currentPage==='jobs')renderJobs();
+  if(currentPage==='sales')renderSales();
+  if(currentPage==='ids')renderIdRecords();
+  if(currentPage==='inventory')renderInventory();
+  if(currentPage==='customers')renderCustomers();
+}
+
+// ===== NAV =====
+function showPage(name,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.bn-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  if(el)el.classList.add('active');
+  else{const b=document.getElementById('bn-'+name);if(b)b.classList.add('active');}
+  currentPage=name;refreshPage();
+}
+function handleFab(){openModal('fab-modal');}
+
+// ===== DASHBOARD =====
+function renderDashboard(){
+  const total=data.jobs.length;
+  const pending=data.jobs.filter(j=>j.status==='Pending').length;
+  const inprog=data.jobs.filter(j=>j.status==='In Progress').length;
+  const done=data.jobs.filter(j=>j.status==='Done'||j.status==='Delivered').length;
+  const todaySales=data.sales.filter(s=>s.date===new Date().toLocaleDateString('en-CA')).reduce((a,s)=>a+s.total,0);
+  const low=data.inventory.filter(i=>i.stock<=i.minStock).length;
+  document.getElementById('stats-row').innerHTML=`
+    <div class="stat-card"><div class="stat-label">Jobs</div><div class="stat-value" style="color:var(--accent)">${total}</div></div>
+    <div class="stat-card"><div class="stat-label">Pending</div><div class="stat-value" style="color:var(--yellow)">${pending}</div></div>
+    <div class="stat-card"><div class="stat-label">In Progress</div><div class="stat-value" style="color:var(--accent)">${inprog}</div></div>
+    <div class="stat-card"><div class="stat-label">Done</div><div class="stat-value" style="color:var(--green)">${done}</div></div>
+    <div class="stat-card"><div class="stat-label">Today Sales</div><div class="stat-value" style="color:#a78bfa;font-size:16px">₹${todaySales}</div></div>
+    <div class="stat-card"><div class="stat-label">Low Stock</div><div class="stat-value" style="color:var(--red)">${low}</div></div>`;
+  const recent=[...data.jobs].slice(0,5);
+  document.getElementById('dash-recent').innerHTML=recent.length?recent.map(j=>`
+    <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+      <div><div style="font-size:14px;font-weight:600">${j.name}</div><div style="font-size:11px;color:var(--muted)">${j.brand} ${j.model}</div></div>
+      <div style="text-align:right"><span class="badge ${bc(j.status,j.type)}">${j.status}</span><div style="font-size:12px;color:var(--green);font-weight:700;margin-top:2px">₹${j.charge}</div></div>
+    </div>`).join(''):'<div style="color:var(--muted);font-size:13px;padding:8px 0">No jobs yet</div>';
+  const lowItems=data.inventory.filter(i=>i.stock<=i.minStock);
+  document.getElementById('dash-lowstock').innerHTML=lowItems.length?lowItems.slice(0,4).map(i=>`
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+      <div style="font-size:13px;font-weight:500">${i.name}</div>
+      <span class="badge ${i.stock===0?'badge-low':'badge-pending'}">${i.stock===0?'Out':'Low:'+i.stock}</span>
+    </div>`).join(''):'<div style="color:var(--green);font-size:13px;padding:8px 0">✅ All stock OK</div>';
+}
+function bc(s,t){
+  if(t==='Software')return'badge-sw';if(t==='Unlocking')return'badge-unlock';
+  if(s==='Pending')return'badge-pending';if(s==='In Progress')return'badge-progress';
+  if(s==='Done')return'badge-done';if(s==='Delivered')return'badge-delivered';
+  return'badge-pending';
+}
+
+// ===== JOBS =====
+function renderJobs(){
+  let jobs=data.jobs.filter(j=>{
+    const q=jobSearchQ.toLowerCase();
+    const m=!q||j.name.toLowerCase().includes(q)||j.phone.includes(q)||j.model.toLowerCase().includes(q)||j.brand.toLowerCase().includes(q)||(j.imei&&j.imei.includes(q));
+    const sm=!jobStatusF||j.status===jobStatusF||j.type===jobStatusF;
+    return m&&sm;
+  });
+  const el=document.getElementById('jobs-list');
+  if(!jobs.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon">📋</div><h3>No jobs found</h3><p>Tap + to add</p></div>`;return;}
+  el.innerHTML=jobs.map(j=>{
+    const hasId=j.aadhaar&&(j.aadhaar.front||j.aadhaar.back);
+    return`<div class="job-card">
+      <div class="job-card-top">
+        <div>
+          <div class="job-id">${j.id} · ${j.date}</div>
+          <div class="job-cust">${j.name}</div>
+          <div class="job-device">📱 ${j.brand} ${j.model} · 📞 ${j.phone}</div>
+          ${j.imei?`<div class="job-device">IMEI: ${j.imei}</div>`:''}
+          ${hasId?`<div class="id-indicator">🪪 Aadhaar saved</div>`:''}
+        </div>
+        <span class="badge ${bc(j.status,j.type)}">${j.type==='Software'?'SW':j.type==='Unlocking'?'Unlock':j.status}</span>
+      </div>
+      <div class="job-issue">🔧 ${j.issue}</div>
+      <div class="job-footer">
+        <div><div class="job-charge">₹${j.charge}</div><div style="font-size:11px;color:var(--muted)">${j.status}</div></div>
+        <div class="job-actions">
+          <button class="btn btn-blue btn-sm" onclick='printSlip("${j.id}")'>🖨️</button>
+          <button class="btn btn-ghost btn-sm" onclick='openStatusModal("${j.id}")'>📊</button>
+          <button class="btn btn-ghost btn-sm" onclick='editJob("${j.id}")'>✏️</button>
+          <button class="btn btn-danger btn-sm" onclick='deleteJob("${j.id}")'>🗑️</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function filterJobs(v){jobSearchQ=v;renderJobs();}
+function setJobFilter(v,el){
+  jobStatusF=v;
+  document.querySelectorAll('#job-filter-row .filter-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');renderJobs();
+}
+
+// ===== JOB MODAL =====
+function openJobModal(id){
+  editingJobId=id||null;
+  photoDataFront='';photoDataBack='';
+  resetPhotoUI('front');resetPhotoUI('back');
+  if(editingJobId){
+    const j=data.jobs.find(x=>x.id===id);
+    document.getElementById('job-modal-title').textContent='Edit Job Card';
+    document.getElementById('j-name').value=j.name;
+    document.getElementById('j-phone').value=j.phone;
+    document.getElementById('j-brand').value=j.brand;
+    document.getElementById('j-model').value=j.model;
+    document.getElementById('j-imei').value=j.imei||'';
+    document.getElementById('j-type').value=j.type;
+    document.getElementById('j-issue').value=j.issue;
+    document.getElementById('j-status').value=j.status;
+    document.getElementById('j-charge').value=j.charge;
+    document.getElementById('j-notes').value=j.notes||'';
+    if(j.aadhaar){
+      if(j.aadhaar.front){photoDataFront=j.aadhaar.front;showPhotoPreview('front',j.aadhaar.front);}
+      if(j.aadhaar.back){photoDataBack=j.aadhaar.back;showPhotoPreview('back',j.aadhaar.back);}
+    }
+  }else{
+    document.getElementById('job-modal-title').textContent='New Job Card';
+    ['j-name','j-phone','j-brand','j-model','j-imei','j-issue','j-charge','j-notes'].forEach(x=>document.getElementById(x).value='');
+    document.getElementById('j-type').value='Repair';
+    document.getElementById('j-status').value='Pending';
+  }
+  handleServiceTypeChange();openModal('job-modal');
+}
+function resetPhotoUI(side){
+  const img=document.getElementById(side+'-img');
+  const box=document.getElementById(side+'-box');
+  img.src='';img.style.display='none';
+  box.querySelector('.photo-icon').style.display='';
+  box.querySelector('.photo-caption').style.display='';
+  document.getElementById(side+'-remove').style.display='none';
+}
+function handleServiceTypeChange(){
+  const t=document.getElementById('j-type').value;
+  document.getElementById('aadhaar-section').style.display=(t==='Software'||t==='Unlocking')?'block':'none';
+}
+// Camera capture
+function capturePhoto(side){
+  document.getElementById('camera-'+side).value='';
+  document.getElementById('camera-'+side).click();
+}
+// Gallery / local drive upload
+function galleryPhoto(side){
+  document.getElementById('gallery-'+side).value='';
+  document.getElementById('gallery-'+side).click();
+}
+function handlePhotoCapture(event,side){
+  const file=event.target.files[0];if(!file)return;
+  // Compress image before saving
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const img=new Image();
+    img.onload=function(){
+      const canvas=document.createElement('canvas');
+      const MAX=800;
+      let w=img.width,h=img.height;
+      if(w>MAX){h=Math.round(h*MAX/w);w=MAX;}
+      if(h>MAX){w=Math.round(w*MAX/h);h=MAX;}
+      canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      const d64=canvas.toDataURL('image/jpeg',0.7);
+      if(side==='front')photoDataFront=d64;else photoDataBack=d64;
+      showPhotoPreview(side,d64);
+      toast('📷 Photo added!');
+    };
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function showPhotoPreview(side,src){
+  const img=document.getElementById(side+'-img');
+  const box=document.getElementById(side+'-box');
+  img.src=src;img.style.display='block';
+  box.querySelector('.photo-icon').style.display='none';
+  box.querySelector('.photo-caption').style.display='none';
+  document.getElementById(side+'-remove').style.display='flex';
+}
+function removePhoto(event,side){
+  event.stopPropagation();
+  if(side==='front')photoDataFront='';else photoDataBack='';
+  resetPhotoUI(side);
+}
+async function saveJob(){
+  const name=document.getElementById('j-name').value.trim();
+  const phone=document.getElementById('j-phone').value.trim();
+  const brand=document.getElementById('j-brand').value.trim();
+  const model=document.getElementById('j-model').value.trim();
+  const issue=document.getElementById('j-issue').value.trim();
+  if(!name||!phone||!brand||!model||!issue){toast('⚠️ Fill all required fields');return;}
+  const btn=document.getElementById('save-job-btn');
+  btn.innerHTML='<span class="spinner"></span> Saving...';btn.disabled=true;
+  const row={
+    id:editingJobId||'J'+Date.now().toString().slice(-6),
+    name,phone,brand,model,
+    imei:document.getElementById('j-imei').value.trim(),
+    type:document.getElementById('j-type').value,
+    issue,status:document.getElementById('j-status').value,
+    charge:parseInt(document.getElementById('j-charge').value)||0,
+    notes:document.getElementById('j-notes').value.trim(),
+    date:new Date().toLocaleDateString('en-CA'),
+    aadhaar_front:photoDataFront,
+    aadhaar_back:photoDataBack
+  };
+  try{
+    await sbUpsert('jobs',row);
+    await sbUpsert('customers',{id:phone,phone,name,last_visit:row.date});
+    toast(editingJobId?'✅ Job updated!':'✅ Job saved to cloud!');
+    closeModal('job-modal');await loadAll();
+  }catch(e){toast('❌ Save failed: '+e.message);}
+  btn.innerHTML='💾 Save Job';btn.disabled=false;
+}
+function editJob(id){openJobModal(id);}
+async function deleteJob(id){
+  if(!confirm('Delete this job?'))return;
+  try{await sbDelete('jobs',id);toast('Deleted');await loadAll();}
+  catch(e){toast('❌ Error');}
+}
+function openStatusModal(id){
+  statusJobId=id;
+  const j=data.jobs.find(x=>x.id===id);
+  document.getElementById('status-job-info').textContent=`${j.name} — ${j.brand} ${j.model}`;
+  openModal('status-modal');
+}
+async function updateStatus(s){
+  try{
+    const j=data.jobs.find(x=>x.id===statusJobId);
+    const jc={...j,status:s,aadhaar_front:j.aadhaar?j.aadhaar.front:'',aadhaar_back:j.aadhaar?j.aadhaar.back:''};delete jc.aadhaar;await sbUpsert('jobs',jc);
+    toast('Status: '+s);closeModal('status-modal');await loadAll();
+  }catch(e){toast('❌ Error');}
+}
+
+// ===== SALES / BILLING =====
+function openSaleModal(id){
+  editingSaleId=id||null;
+  billItems=[];
+  if(editingSaleId){
+    const s=data.sales.find(x=>x.id===id);
+    document.getElementById('sale-modal-title').textContent='Edit Bill';
+    document.getElementById('s-name').value=s.name;
+    document.getElementById('s-phone').value=s.phone||'';
+    document.getElementById('s-notes').value=s.notes||'';
+    billItems=[...s.items];
+  }else{
+    document.getElementById('sale-modal-title').textContent='New Sale / Bill';
+    ['s-name','s-phone','s-notes'].forEach(x=>document.getElementById(x).value='');
+    billItems=[{name:'',qty:1,price:0}];
+  }
+  renderBillItems();openModal('sale-modal');
+}
+function addBillItem(){
+  billItems.push({name:'',qty:1,price:0});
+  renderBillItems();
+}
+function renderBillItems(){
+  const el=document.getElementById('bill-items-list');
+  el.innerHTML=billItems.map((item,i)=>`
+    <div style="display:grid;grid-template-columns:1fr 60px 80px 36px;gap:6px;margin-bottom:8px;align-items:center">
+      <input class="form-input" style="padding:8px 10px;font-size:13px" placeholder="Item name" value="${item.name}" oninput="updateBillItem(${i},'name',this.value)"/>
+      <input class="form-input" style="padding:8px 10px;font-size:13px" type="number" placeholder="Qty" value="${item.qty}" oninput="updateBillItem(${i},'qty',this.value)"/>
+      <input class="form-input" style="padding:8px 10px;font-size:13px" type="number" placeholder="₹ Price" value="${item.price}" oninput="updateBillItem(${i},'price',this.value)"/>
+      <button class="btn btn-danger btn-sm" style="padding:8px;justify-content:center" onclick="removeBillItem(${i})">🗑️</button>
+    </div>`).join('');
+  updateBillTotal();
+}
+function updateBillItem(i,field,val){
+  if(field==='name')billItems[i].name=val;
+  else billItems[i][field]=parseFloat(val)||0;
+  updateBillTotal();
+}
+function removeBillItem(i){billItems.splice(i,1);renderBillItems();}
+function updateBillTotal(){
+  const total=billItems.reduce((a,item)=>a+(item.qty*item.price),0);
+  document.getElementById('bill-total-display').textContent='₹'+total.toFixed(0);
+}
+async function saveSale(){
+  const name=document.getElementById('s-name').value.trim();
+  if(!name){toast('⚠️ Customer name required');return;}
+  if(!billItems.length||!billItems.some(i=>i.name)){toast('⚠️ Add at least one item');return;}
+  const btn=document.getElementById('save-sale-btn');
+  btn.innerHTML='<span class="spinner"></span> Saving...';btn.disabled=true;
+  const total=billItems.reduce((a,i)=>a+(i.qty*i.price),0);
+  const row={
+    id:editingSaleId||'S'+Date.now().toString().slice(-6),
+    name,
+    phone:document.getElementById('s-phone').value.trim(),
+    items:billItems,
+    total:Math.round(total),
+    notes:document.getElementById('s-notes').value.trim(),
+    date:new Date().toLocaleDateString('en-CA')
+  };
+  try{
+    await sbUpsert('sales',row);
+    toast(editingSaleId?'✅ Bill updated!':'✅ Bill saved!');
+    closeModal('sale-modal');await loadAll();
+  }catch(e){toast('❌ Save failed: '+e.message);}
+  btn.innerHTML='💾 Save Bill';btn.disabled=false;
+}
+function renderSales(){
+  const q=salesSearchQ.toLowerCase();
+  const sales=data.sales.filter(s=>!q||s.name.toLowerCase().includes(q)||s.phone.includes(q));
+  const el=document.getElementById('sales-list');
+  if(!sales.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon">💰</div><h3>No sales yet</h3><p>Tap + to create a bill</p></div>`;return;}
+  el.innerHTML=sales.map(s=>`
+    <div class="sale-card">
+      <div class="sale-top">
+        <div>
+          <div style="font-size:11px;color:var(--muted);font-weight:600">${s.id} · ${s.date}</div>
+          <div style="font-size:15px;font-weight:600;margin-top:2px">${s.name}</div>
+          ${s.phone?`<div style="font-size:12px;color:var(--muted)">📞 ${s.phone}</div>`:''}
+          <div style="margin-top:4px">${s.items.map(i=>`<span style="font-size:12px;color:var(--muted)">${i.name} x${i.qty}</span>`).join(' · ')}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:18px;font-weight:700;color:var(--green)">₹${s.total}</div>
+          <span class="badge badge-sale" style="margin-top:4px">Sale</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:10px">
+        <button class="btn btn-blue btn-sm" onclick='printBill("${s.id}")' style="flex:1;justify-content:center">🖨️ Print Bill</button>
+        <button class="btn btn-ghost btn-sm" onclick='openSaleModal("${s.id}")'>✏️</button>
+        <button class="btn btn-danger btn-sm" onclick='deleteSale("${s.id}")'>🗑️</button>
+      </div>
+    </div>`).join('');
+}
+function filterSales(v){salesSearchQ=v;renderSales();}
+async function deleteSale(id){
+  if(!confirm('Delete this bill?'))return;
+  try{await sbDelete('sales',id);toast('Deleted');await loadAll();}
+  catch(e){toast('❌ Error');}
+}
+
+// ===== PRINT BILL =====
+function printBill(saleId){
+  const s=data.sales.find(x=>x.id===saleId);if(!s)return;
+  const today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  const itemsHTML=s.items.map((item,i)=>`
+    <tr>
+      <td>${i+1}</td>
+      <td>${item.name}</td>
+      <td style="text-align:center">${item.qty}</td>
+      <td style="text-align:right">₹${item.price}</td>
+      <td style="text-align:right">₹${item.qty*item.price}</td>
+    </tr>`).join('');
+  document.getElementById('print-area').innerHTML=`
+  <div class="slip-page">
+    <div class="slip-header">
+      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div></div>
+      <div style="text-align:right"><div style="font-size:13px;color:#1a237e;font-weight:700">📞 9719216912</div><div style="font-size:11px;color:#666;margin-top:3px">Date: ${today}</div></div>
+    </div>
+    <div class="slip-title-bar">
+      <span>🧾 Sales Invoice / Bill</span>
+      <span style="font-size:12px;opacity:0.85">Bill No: ${s.id}</span>
+    </div>
+    <div class="slip-section">
+      <div class="slip-section-title">👤 Customer Details</div>
+      <div class="slip-grid">
+        <div class="slip-field"><label>Name</label><p>${s.name}</p></div>
+        <div class="slip-field"><label>Mobile</label><p>${s.phone||'—'}</p></div>
+        <div class="slip-field"><label>Date</label><p>${s.date}</p></div>
+        <div class="slip-field"><label>Bill No</label><p>${s.id}</p></div>
+      </div>
+    </div>
+    <div class="slip-section">
+      <div class="slip-section-title">🛒 Items Sold</div>
+      <table class="bill-slip-items">
+        <thead><tr><th>#</th><th>Item</th><th style="text-align:center">Qty</th><th style="text-align:right">Price</th><th style="text-align:right">Amount</th></tr></thead>
+        <tbody>${itemsHTML}</tbody>
+        <tfoot>
+          <tr class="bill-total-row"><td colspan="4" style="text-align:right;padding:8px">Total Amount:</td><td style="text-align:right;padding:8px;font-size:15px">₹${s.total}</td></tr>
+        </tfoot>
+      </table>
+    </div>
+    ${s.notes?`<div class="slip-section"><div class="slip-section-title">Notes</div><p style="font-size:13px">${s.notes}</p></div>`:''}
+    <div class="slip-footer">
+      <div><div class="slip-sig">Customer Signature</div></div>
+      <div style="text-align:center"><div style="font-size:11px;color:#888;font-style:italic">Thank you for shopping!<br/>Prime Telecom Chandpur<br/>📞 9719216912</div></div>
+    </div>
+  </div>`;
+  showPrintShare(s.id,'bill');
+}
+
+// ===== PRINT JOB SLIP =====
+function printSlip(jobId){
+  const j=data.jobs.find(x=>x.id===jobId);if(!j)return;
+  const typeBadge=j.type==='Software'?'slip-badge-sw':j.type==='Unlocking'?'slip-badge-unlock':'slip-badge-repair';
+  const today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  const frontHTML=j.aadhaar&&j.aadhaar.front?`<img src="${j.aadhaar.front}" alt="Front"/>`:`<div class="slip-photo-empty">No photo</div>`;
+  const backHTML=j.aadhaar&&j.aadhaar.back?`<img src="${j.aadhaar.back}" alt="Back"/>`:`<div class="slip-photo-empty">No photo</div>`;
+  const showAadhaar=j.type==='Software'||j.type==='Unlocking';
+  document.getElementById('print-area').innerHTML=`
+  <div class="slip-page">
+    <div class="slip-header">
+      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div></div>
+      <div style="text-align:right"><div style="font-size:13px;color:#1a237e;font-weight:700">📞 9719216912</div><div style="font-size:11px;color:#666;margin-top:3px">Date: ${today}</div></div>
+    </div>
+    <div class="slip-title-bar"><span>🔧 Service Job Card</span><span style="font-size:12px;opacity:0.85">Job: ${j.id}</span></div>
+    <div class="slip-section">
+      <div class="slip-section-title">👤 Customer</div>
+      <div class="slip-grid">
+        <div class="slip-field"><label>Name</label><p>${j.name}</p></div>
+        <div class="slip-field"><label>Mobile</label><p>${j.phone}</p></div>
+      </div>
+    </div>
+    <div class="slip-section">
+      <div class="slip-section-title">📱 Device</div>
+      <div class="slip-grid">
+        <div class="slip-field"><label>Brand</label><p>${j.brand}</p></div>
+        <div class="slip-field"><label>Model</label><p>${j.model}</p></div>
+        <div class="slip-field"><label>IMEI</label><p>${j.imei||'Not Provided'}</p></div>
+        <div class="slip-field"><label>Service</label><p>${j.type}</p></div>
+      </div>
+    </div>
+    <div class="slip-section">
+      <div class="slip-section-title">🛠️ Service Details</div>
+      <div class="slip-grid">
+        <div class="slip-field"><label>Date</label><p>${j.date}</p></div>
+        <div class="slip-field"><label>Status</label><p>${j.status}</p></div>
+        <div class="slip-field" style="grid-column:1/-1"><label>Issue / Work</label><p>${j.issue}</p></div>
+        ${j.notes?`<div class="slip-field" style="grid-column:1/-1"><label>Notes</label><p>${j.notes}</p></div>`:''}
+        <div class="slip-field"><label>Charge</label><p style="font-size:15px;font-weight:800;color:#1a237e">₹${j.charge}</p></div>
+      </div>
+    </div>
+    ${showAadhaar?`<div class="slip-section">
+      <div class="slip-section-title">🪪 Aadhaar ID Proof</div>
+      <div class="slip-photos">
+        <div class="slip-photo-box"><div class="slip-photo-label">Front</div>${frontHTML}</div>
+        <div class="slip-photo-box"><div class="slip-photo-label">Back</div>${backHTML}</div>
+      </div>
+    </div>`:''}
+    <div class="slip-footer">
+      <div><div class="slip-sig">Customer Signature</div></div>
+      <div><div class="slip-sig">Technician Signature</div></div>
+      <div style="text-align:right;font-size:10px;color:#888;font-style:italic">Prime Telecom Chandpur<br/>📞 9719216912<br/>Thank you! 🙏</div>
+    </div>
+  </div>`;
+  showPrintShare(j.id,'job');
+}
+
+function showPrintShare(id,type){
+  const ex=document.getElementById('share-modal');if(ex)ex.remove();
+  const m=document.createElement('div');
+  m.id='share-modal';m.className='modal-overlay open';
+  m.innerHTML=`<div class="modal" style="max-width:380px">
+    <div class="modal-handle"></div>
+    <div class="modal-title">${type==='bill'?'🧾 Print Bill':'🖨️ Print Slip'}</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <button class="btn btn-primary" onclick="window.print()">🖨️ Print / Save as PDF</button>
+      <button class="btn btn-green" onclick="doShare('${id}','${type}')">📤 Share on WhatsApp</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('share-modal').remove()">Cancel</button>
+    </div>
+  </div>`;
+  m.addEventListener('click',function(e){if(e.target===this)this.remove();});
+  document.body.appendChild(m);
+}
+function doShare(id,type){
+  document.getElementById('share-modal')&&document.getElementById('share-modal').remove();
+  let text='';
+  if(type==='bill'){
+    const s=data.sales.find(x=>x.id===id);
+    text=`*Prime Telecom Chandpur*\n📞 9719216912\n\n*Bill No: ${s.id}*\n📅 ${s.date}\n━━━━━━━━━━\n👤 ${s.name}${s.phone?'\n📞 '+s.phone:''}\n━━━━━━━━━━\n`;
+    s.items.forEach(i=>{text+=`• ${i.name} x${i.qty} = ₹${i.qty*i.price}\n`;});
+    text+=`━━━━━━━━━━\n💰 Total: ₹${s.total}\n\nThank you! 🙏`;
+  }else{
+    const j=data.jobs.find(x=>x.id===id);
+    text=`*Prime Telecom Chandpur*\n📞 9719216912\n\n*Job: ${j.id}* · ${j.date}\n━━━━━━━━━━\n👤 ${j.name} · 📞 ${j.phone}\n📱 ${j.brand} ${j.model}`;
+    if(j.imei)text+=`\nIMEI: ${j.imei}`;
+    text+=`\n🛠️ ${j.type}: ${j.issue}\n📊 ${j.status} · ₹${j.charge}\n━━━━━━━━━━\nThank you! 🙏`;
+  }
+  if(navigator.share){navigator.share({title:'Prime Telecom',text}).then(()=>toast('✅ Shared!')).catch(()=>openWA(text));}
+  else openWA(text);
+}
+function openWA(t){window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank');}
+
+// ===== ID RECORDS =====
+function renderIdRecords(){
+  const records=data.jobs.filter(j=>j.type==='Software'||j.type==='Unlocking');
+  const q=idSearchQ.toLowerCase();
+  const filtered=q?records.filter(j=>j.name.toLowerCase().includes(q)||j.phone.includes(q)||j.model.toLowerCase().includes(q)||(j.imei&&j.imei.includes(q))):records;
+  const el=document.getElementById('id-records-list');
+  if(!filtered.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon">🪪</div><h3>No ID records</h3><p>Records appear for Software & Unlocking jobs</p></div>`;return;}
+  el.innerHTML=filtered.map(j=>`
+    <div class="id-record">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        <div>
+          <div style="font-size:11px;color:var(--muted)">${j.id} · ${j.date}</div>
+          <div style="font-size:15px;font-weight:600;margin-top:2px">${j.name}</div>
+          <div style="font-size:12px;color:var(--muted)">📞 ${j.phone} · 📱 ${j.brand} ${j.model}</div>
+          ${j.imei?`<div style="font-size:12px;color:var(--muted)">IMEI: ${j.imei}</div>`:''}
+        </div>
+        <div style="text-align:right">
+          <span class="badge ${j.type==='Software'?'badge-sw':'badge-unlock'}">${j.type}</span>
+          <div style="margin-top:6px"><button class="btn btn-blue btn-sm" onclick='printSlip("${j.id}")'>🖨️</button></div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:6px">🔧 ${j.issue}</div>
+      <div class="id-photos">
+        <div class="id-photo-thumb ${j.aadhaar&&j.aadhaar.front?'':'empty'}" onclick="${j.aadhaar&&j.aadhaar.front?`openLightbox('${j.id}','front')`:'void(0)'}">
+          ${j.aadhaar&&j.aadhaar.front?`<img src="${j.aadhaar.front}"/>`:'<span>No Front</span>'}
+        </div>
+        <div class="id-photo-thumb ${j.aadhaar&&j.aadhaar.back?'':'empty'}" onclick="${j.aadhaar&&j.aadhaar.back?`openLightbox('${j.id}','back')`:'void(0)'}">
+          ${j.aadhaar&&j.aadhaar.back?`<img src="${j.aadhaar.back}"/>`:'<span>No Back</span>'}
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:6px;font-size:11px;color:var(--muted)">
+        Front:<span style="color:${j.aadhaar&&j.aadhaar.front?'var(--green)':'var(--red)'}">${j.aadhaar&&j.aadhaar.front?'✅':'❌'}</span>
+        Back:<span style="color:${j.aadhaar&&j.aadhaar.back?'var(--green)':'var(--red)'}">${j.aadhaar&&j.aadhaar.back?'✅':'❌'}</span>
+      </div>
+    </div>`).join('');
+}
+function filterIdRecords(v){idSearchQ=v;renderIdRecords();}
+function openLightbox(jobId,side){
+  const j=data.jobs.find(x=>x.id===jobId);if(!j||!j.aadhaar)return;
+  const src=side==='front'?j.aadhaar.front:j.aadhaar.back;if(!src)return;
+  document.getElementById('lightbox-img').src=src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
+
+// ===== INVENTORY =====
+function renderInventory(){
+  let items=data.inventory.filter(i=>{
+    const q=invSearchQ.toLowerCase();
+    const m=!q||i.name.toLowerCase().includes(q)||(i.cat||'').toLowerCase().includes(q)||(i.compat||'').toLowerCase().includes(q);
+    const tm=invTypeF==='all'||invTypeF===i.itype||(invTypeF==='low'&&i.stock<=i.minStock);
+    return m&&tm;
+  });
+  const el=document.getElementById('inventory-list');
+  if(!items.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon">📦</div><h3>No items</h3><p>Tap + to add</p></div>`;return;}
+  el.innerHTML=items.map(item=>{
+    const low=item.stock<=item.minStock;
+    const pct=Math.min(100,(item.stock/Math.max(1,item.minStock*3))*100);
+    return`<div class="inv-card">
+      <div class="inv-top">
+        <div><div class="inv-name">${item.name}</div><div class="inv-meta">${item.cat}${item.compat?' · '+item.compat:''} · ${item.itype==='part'?'Part':'Accessory'}</div></div>
+        <span class="badge ${item.stock===0?'badge-low':low?'badge-pending':'badge-ok'}">${item.stock===0?'Out':low?'Low':'OK'}</span>
+      </div>
+      <div class="inv-bottom">
+        <div>
+          <div style="font-size:18px;font-weight:700;color:${item.stock===0?'var(--red)':low?'var(--yellow)':'var(--text)'}">${item.stock} units</div>
+          <div class="stock-bar"><div class="stock-fill" style="width:${pct}%;background:${item.stock===0?'var(--red)':low?'var(--yellow)':'var(--green)'}"></div></div>
+        </div>
+        <div style="text-align:right"><div style="font-size:11px;color:var(--muted)">Buy ₹${item.buy}</div><div style="font-size:15px;font-weight:700;color:var(--green)">₹${item.sell}</div></div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:10px">
+        <button class="btn btn-ghost btn-sm" onclick='openInvModal("${item.id}")' style="flex:1;justify-content:center">✏️ Edit</button>
+        <button class="btn btn-green btn-sm" onclick='quickStock("${item.id}",1)'>+1</button>
+        <button class="btn btn-danger btn-sm" onclick='quickStock("${item.id}",-1)'>-1</button>
+        <button class="btn btn-danger btn-sm" onclick='deleteInventory("${item.id}")'>🗑️</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function filterInventoryAll(v){invSearchQ=v;renderInventory();}
+function setInvFilter(v,el){
+  invTypeF=v;
+  document.querySelectorAll('#page-inventory .filter-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');renderInventory();
+}
+async function quickStock(id,delta){
+  const i=data.inventory.find(x=>x.id===id);if(!i)return;
+  const ns=Math.max(0,i.stock+delta);
+  try{
+    await sbUpsert('inventory',{id:i.id,itype:i.itype,name:i.name,cat:i.cat,compat:i.compat,stock:ns,min_stock:i.minStock,buy:i.buy,sell:i.sell,minStock:i.minStock});
+    toast(`Stock: ${ns}`);await loadAll();
+  }catch(e){toast('❌ Error');}
+}
+function openInvModal(id){
+  editingInvId=id||null;
+  if(editingInvId){
+    const i=data.inventory.find(x=>x.id===id);
+    document.getElementById('inv-modal-title').textContent='Edit Item';
+    document.getElementById('inv-type').value=i.itype;
+    document.getElementById('inv-name').value=i.name;
+    document.getElementById('inv-cat').value=i.cat;
+    document.getElementById('inv-compat').value=i.compat;
+    document.getElementById('inv-stock').value=i.stock;
+    document.getElementById('inv-min').value=i.minStock;
+    document.getElementById('inv-buy').value=i.buy;
+    document.getElementById('inv-sell').value=i.sell;
+  }else{
+    document.getElementById('inv-modal-title').textContent='Add Item';
+    ['inv-name','inv-cat','inv-compat','inv-stock','inv-min','inv-buy','inv-sell'].forEach(x=>document.getElementById(x).value='');
+    document.getElementById('inv-type').value='part';
+  }
+  openModal('inv-modal');
+}
+async function saveInventory(){
+  const name=document.getElementById('inv-name').value.trim();
+  if(!name){toast('⚠️ Name required');return;}
+  const btn=document.getElementById('save-inv-btn');
+  btn.innerHTML='<span class="spinner"></span>';btn.disabled=true;
+  const row={
+    id:editingInvId||'I'+Date.now().toString().slice(-6),
+    itype:document.getElementById('inv-type').value,
+    name,cat:document.getElementById('inv-cat').value.trim(),
+    compat:document.getElementById('inv-compat').value.trim(),
+    stock:parseInt(document.getElementById('inv-stock').value)||0,
+    min_stock:parseInt(document.getElementById('inv-min').value)||2,
+    buy:parseInt(document.getElementById('inv-buy').value)||0,
+    sell:parseInt(document.getElementById('inv-sell').value)||0
+  };
+  try{
+    await sbUpsert('inventory',row);
+    toast(editingInvId?'✅ Updated!':'✅ Added!');
+    closeModal('inv-modal');await loadAll();
+  }catch(e){toast('❌ Error: '+e.message);}
+  btn.innerHTML='💾 Save';btn.disabled=false;
+}
+function editInventory(id){openInvModal(id);}
+async function deleteInventory(id){
+  if(!confirm('Remove?'))return;
+  try{await sbDelete('inventory',id);toast('Removed');await loadAll();}
+  catch(e){toast('❌ Error');}
+}
+
+// ===== CUSTOMERS =====
+function renderCustomers(){
+  const q=custSearchQ.toLowerCase();
+  const custs=data.customers.filter(c=>!q||c.name.toLowerCase().includes(q)||c.phone.includes(q));
+  const el=document.getElementById('customers-list');
+  if(!custs.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon">👥</div><h3>No customers</h3></div>`;return;}
+  el.innerHTML=custs.map(c=>{
+    const jobs=data.jobs.filter(j=>j.phone===c.phone);
+    const sales=data.sales.filter(s=>s.phone===c.phone);
+    const swJobs=jobs.filter(j=>j.type==='Software'||j.type==='Unlocking');
+    return`<div class="card" style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div style="font-size:15px;font-weight:600">${c.name}</div>
+          <div style="font-size:13px;color:var(--muted)">📞 ${c.phone}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px">Last visit: ${c.lastVisit}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:13px;font-weight:600;color:var(--accent)">${jobs.length} jobs</div>
+          ${sales.length?`<div style="font-size:12px;color:#a78bfa">${sales.length} bills</div>`:''}
+          ${swJobs.length?`<div class="id-indicator">🪪 ${swJobs.length} ID</div>`:''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function filterCustomers(v){custSearchQ=v;renderCustomers();}
+
+// ===== MODALS =====
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');}));
+
+// ===== TOAST =====
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+
+// Firebase configured ✅
+
+// ===== INIT =====
+async function init(){
+  loadAll();
+}
+init();
+</script>
+</body>
+</html>
