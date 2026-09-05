@@ -7,7 +7,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-title" content="Prime Telecom"/>
 <title>Prime Telecom Chandpur</title>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap');
 :root{--bg:#0f1117;--surface:#181c27;--card:#1e2333;--border:#2a2f42;--accent:#4f8ef7;--green:#22c55e;--yellow:#f59e0b;--red:#ef4444;--text:#e8eaf0;--muted:#7b82a0;--radius:12px;}
@@ -19,9 +20,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .sync-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;}
 .sync-bar{font-size:11px;margin-top:4px;display:flex;align-items:center;gap:6px;}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom);}
-.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 4px 8px;cursor:pointer;color:var(--muted);font-size:10px;font-weight:600;gap:4px;transition:color 0.15s;}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:8px 2px 7px;cursor:pointer;color:var(--muted);font-size:9px;font-weight:600;gap:3px;transition:color 0.15s;}
 .bn-item.active{color:var(--accent);}
-.bn-icon{font-size:18px;}
+.bn-icon{font-size:16px;}
 .main{padding:16px;padding-bottom:80px;max-width:680px;margin:0 auto;}
 .page{display:none;}.page.active{display:block;}
 .page-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-bottom:16px;}
@@ -54,6 +55,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .badge-low{background:rgba(239,68,68,0.15);color:var(--red);}
 .badge-ok{background:rgba(34,197,94,0.15);color:var(--green);}
 .badge-sale{background:rgba(124,58,237,0.15);color:#a78bfa;}
+.badge-purchase{background:rgba(245,158,11,0.15);color:var(--yellow);}
 .job-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;}
 .job-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
 .job-id{font-size:11px;color:var(--muted);font-weight:600;}
@@ -132,8 +134,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .empty-state h3{color:var(--text);font-size:15px;}
 /* PRINT */
 #print-area{display:none;}
-@media print{body>*{display:none !important;}#print-area{display:block !important;}}
-.slip-page{font-family:Arial,sans-serif;background:#fff;color:#111;width:100%;padding:10mm 12mm;box-sizing:border-box;}
+@media print{
+  @page{size:A4;margin:0;}
+  body>*{display:none !important;}
+  #print-area{display:block !important;}
+  .slip-page{page-break-after:always;}
+}
+.slip-page{font-family:Arial,sans-serif;background:#fff;color:#111;width:210mm;min-height:297mm;padding:14mm 16mm;box-sizing:border-box;font-size:13.5px;margin:0 auto;}
 .slip-header{border-bottom:3px solid #1a237e;padding-bottom:8px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:flex-start;}
 .slip-shop-name{font-size:20px;font-weight:800;color:#1a237e;}
 .slip-shop-sub{font-size:11px;color:#555;margin-top:2px;}
@@ -233,6 +240,14 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div id="sales-list"></div>
   </div>
 
+  <!-- PURCHASES / BUY (second-hand mobile) -->
+  <div class="page" id="page-purchases">
+    <div class="page-title">🛒 Mobile Purchases</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:14px">Second-hand mobile khareedne ka record — seller details + ID proof</div>
+    <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" placeholder="Search seller name, IMEI, model..." oninput="filterPurchases(this.value)"/></div>
+    <div id="purchases-list"></div>
+  </div>
+
   <!-- ID RECORDS -->
   <div class="page" id="page-ids">
     <div class="page-title">🪪 ID Records</div>
@@ -267,6 +282,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   <div class="bn-item active" onclick="showPage('dashboard',this)" id="bn-dashboard"><span class="bn-icon">🏠</span>Home</div>
   <div class="bn-item" onclick="showPage('jobs',this)" id="bn-jobs"><span class="bn-icon">📋</span>Jobs</div>
   <div class="bn-item" onclick="showPage('sales',this)" id="bn-sales"><span class="bn-icon">💰</span>Sales</div>
+  <div class="bn-item" onclick="showPage('purchases',this)" id="bn-purchases"><span class="bn-icon">🛒</span>Buy</div>
   <div class="bn-item" onclick="showPage('ids',this)" id="bn-ids"><span class="bn-icon">🪪</span>ID</div>
   <div class="bn-item" onclick="showPage('inventory',this)" id="bn-inventory"><span class="bn-icon">📦</span>Stock</div>
   <div class="bn-item" onclick="showPage('customers',this)" id="bn-customers"><span class="bn-icon">👥</span>Customers</div>
@@ -364,6 +380,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <div class="form-group"><label class="form-label">Customer Name *</label><input class="form-input" id="s-name" placeholder="Customer name"/></div>
       <div class="form-group"><label class="form-label">Mobile</label><input class="form-input" id="s-phone" type="tel" placeholder="Optional"/></div>
     </div>
+    <div class="form-group"><label class="form-label">IMEI (agar mobile sell kar rahe ho)</label><input class="form-input" id="s-imei" placeholder="15-digit IMEI, optional"/></div>
     <!-- Bill Items -->
     <div class="form-group">
       <label class="form-label">Items Sold</label>
@@ -411,6 +428,68 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   </div>
 </div>
 
+<!-- ===== PURCHASE MODAL (Buy second-hand mobile) ===== -->
+<div class="modal-overlay" id="purchase-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <button class="modal-close" onclick="closeModal('purchase-modal')">✕</button>
+    <div class="modal-title" id="purchase-modal-title">Buy Mobile (Purchase)</div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Seller Name *</label><input class="form-input" id="p-name" placeholder="Full name"/></div>
+      <div class="form-group"><label class="form-label">Mobile Number *</label><input class="form-input" id="p-phone" type="tel" placeholder="10 digit"/></div>
+    </div>
+    <div class="form-group"><label class="form-label">Address</label><input class="form-input" id="p-address" placeholder="Seller address"/></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Mobile Model *</label><input class="form-input" id="p-model" placeholder="e.g. Samsung Galaxy M31"/></div>
+      <div class="form-group"><label class="form-label">IMEI Number</label><input class="form-input" id="p-imei" placeholder="15-digit IMEI" maxlength="20"/></div>
+    </div>
+    <div class="form-group"><label class="form-label">Purchase Price (₹) *</label><input class="form-input" id="p-price" type="number" placeholder="0"/></div>
+
+    <!-- ID PROOF SECTION -->
+    <div class="aadhaar-section">
+      <div class="aadhaar-title">🪪 Aadhaar / Bill Proof (Front &amp; Back)</div>
+      <div class="photo-row">
+        <div>
+          <div class="photo-box" id="p-front-box">
+            <div class="photo-icon">🪪</div>
+            <div class="photo-caption">ID Front</div>
+            <img id="p-front-img" src="" style="display:none"/>
+            <button class="photo-remove" id="p-front-remove" style="display:none" onclick="removePPhoto(event,'front')">✕</button>
+          </div>
+          <div class="photo-btns">
+            <button class="btn btn-blue btn-sm" style="justify-content:center;width:100%" onclick="capturePPhoto('front')">📷 Camera</button>
+            <button class="btn btn-ghost btn-sm" style="justify-content:center;width:100%" onclick="galleryPPhoto('front')">🖼️ Gallery</button>
+          </div>
+          <div class="photo-box-label">ID Front</div>
+        </div>
+        <div>
+          <div class="photo-box" id="p-back-box">
+            <div class="photo-icon">🪪</div>
+            <div class="photo-caption">ID Back</div>
+            <img id="p-back-img" src="" style="display:none"/>
+            <button class="photo-remove" id="p-back-remove" style="display:none" onclick="removePPhoto(event,'back')">✕</button>
+          </div>
+          <div class="photo-btns">
+            <button class="btn btn-blue btn-sm" style="justify-content:center;width:100%" onclick="capturePPhoto('back')">📷 Camera</button>
+            <button class="btn btn-ghost btn-sm" style="justify-content:center;width:100%" onclick="galleryPPhoto('back')">🖼️ Gallery</button>
+          </div>
+          <div class="photo-box-label">ID Back</div>
+        </div>
+      </div>
+      <input type="file" id="p-camera-front" accept="image/*" capture="environment" style="display:none" onchange="handlePPhotoCapture(event,'front')"/>
+      <input type="file" id="p-camera-back" accept="image/*" capture="environment" style="display:none" onchange="handlePPhotoCapture(event,'back')"/>
+      <input type="file" id="p-gallery-front" accept="image/*" style="display:none" onchange="handlePPhotoCapture(event,'front')"/>
+      <input type="file" id="p-gallery-back" accept="image/*" style="display:none" onchange="handlePPhotoCapture(event,'back')"/>
+    </div>
+
+    <div class="form-group"><label class="form-label">Notes</label><input class="form-input" id="p-notes" placeholder="Condition, accessories included, etc."/></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('purchase-modal')">Cancel</button>
+      <button class="btn btn-primary" id="save-purchase-btn" onclick="savePurchase()">💾 Save Purchase</button>
+    </div>
+  </div>
+</div>
+
 <!-- STATUS MODAL -->
 <div class="modal-overlay" id="status-modal">
   <div class="modal">
@@ -435,6 +514,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div style="display:flex;flex-direction:column;gap:10px">
       <button class="btn btn-primary" onclick="closeModal('fab-modal');openJobModal()">📋 New Job Card</button>
       <button class="btn btn-purple" onclick="closeModal('fab-modal');openSaleModal()">💰 New Sale / Bill</button>
+      <button class="btn btn-yellow" onclick="closeModal('fab-modal');openPurchaseModal()">🛒 Buy Mobile (Purchase)</button>
       <button class="btn btn-green" onclick="closeModal('fab-modal');openInvModal()">📦 Add Stock Item</button>
       <button class="btn btn-ghost" onclick="closeModal('fab-modal')">Cancel</button>
     </div>
@@ -451,8 +531,22 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div style="display:flex;flex-direction:column;gap:10px">
       <button class="btn btn-purple" style="width:100%;justify-content:center" onclick="downloadReadableBackup()">🧾 Download as Bills (View/Print)</button>
       <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="downloadBackup()">📥 Download Raw Data (JSON)</button>
-      <button class="btn btn-green" style="width:100%;justify-content:center" onclick="backupToDrive()">☁️ Backup to Google Drive</button>
-      <div id="drive-status" style="font-size:12px;color:var(--muted);text-align:center;min-height:16px"></div>
+
+      <div style="border-top:1px solid var(--border);margin-top:6px;padding-top:14px">
+        <div style="font-size:13px;font-weight:600;margin-bottom:8px">📅 Monthly Export (computer pe save karo)</div>
+        <div class="form-group" style="margin-bottom:10px">
+          <label class="form-label">Select Month</label>
+          <input class="form-input" id="export-month" type="month"/>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="btn btn-green" style="width:100%;justify-content:center" onclick="exportSalesExcel('month')">📊 Sales — Selected Month (Excel)</button>
+          <button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="exportSalesExcel('all')">📊 Sales — All Months (Excel, sheet-wise)</button>
+          <button class="btn btn-yellow" style="width:100%;justify-content:center" onclick="exportPurchasesExcel('month')">🛒 Purchases — Selected Month (Excel)</button>
+          <button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="exportPurchasesExcel('all')">🛒 Purchases — All Months (Excel, sheet-wise)</button>
+          <button class="btn btn-blue" style="width:100%;justify-content:center" onclick="exportIdRecordsPDF()">🪪 Software/Unlocking ID Records — Selected Month (Single PDF)</button>
+        </div>
+      </div>
+
       <button class="btn btn-ghost" onclick="closeModal('backup-modal')">Cancel</button>
     </div>
     <div style="font-size:11px;color:var(--muted);margin-top:12px;border-top:1px solid var(--border);padding-top:10px">
@@ -535,11 +629,12 @@ async function sbUpsert(t,row){ return fbSet(t,row); }
 async function sbDelete(t,id){ return fbDelete(t,id); }
 
 // ===== DATA =====
-let data={jobs:[],inventory:[],customers:[],sales:[]};
+let data={jobs:[],inventory:[],customers:[],sales:[],purchases:[]};
 let currentPage='dashboard';
-let jobSearchQ='',jobStatusF='',invSearchQ='',invTypeF='all',custSearchQ='',idSearchQ='',salesSearchQ='';
-let editingJobId=null,editingInvId=null,editingSaleId=null,statusJobId=null;
+let jobSearchQ='',jobStatusF='',invSearchQ='',invTypeF='all',custSearchQ='',idSearchQ='',salesSearchQ='',purchaseSearchQ='';
+let editingJobId=null,editingInvId=null,editingSaleId=null,statusJobId=null,editingPurchaseId=null;
 let photoDataFront='',photoDataBack='';
+let photoDataPFront='',photoDataPBack='';
 let billItems=[];
 
 // ===== SYNC =====
@@ -554,16 +649,18 @@ function setSyncUI(state){
 async function loadAll(){
   setSyncUI('loading');
   try{
-    const [jobs,inv,custs,sales]=await Promise.all([
+    const [jobs,inv,custs,sales,purchases]=await Promise.all([
       fbGet('jobs'),
       fbGet('inventory'),
       fbGet('customers'),
-      fbGet('sales')
+      fbGet('sales'),
+      fbGet('purchases')
     ]);
     data.jobs=jobs.map(j=>({id:j.id,name:j.name,phone:j.phone,brand:j.brand,model:j.model,imei:j.imei||'',type:j.type,issue:j.issue,status:j.status,charge:j.charge||0,notes:j.notes||'',date:j.date,aadhaar:{front:j.aadhaar_front||'',back:j.aadhaar_back||''}}));
     data.inventory=inv.map(i=>({id:i.id,itype:i.itype,name:i.name,cat:i.cat||'',compat:i.compat||'',stock:i.stock||0,minStock:i.min_stock||2,buy:i.buy||0,sell:i.sell||0}));
     data.customers=custs.map(c=>({name:c.name,phone:c.phone,lastVisit:c.last_visit||''})).sort((a,b)=>a.name.localeCompare(b.name));
-    data.sales=sales.map(s=>({id:s.id,name:s.name,phone:s.phone||'',items:typeof s.items==='string'?JSON.parse(s.items||'[]'):s.items||[],total:s.total||0,notes:s.notes||'',date:s.date}));
+    data.sales=sales.map(s=>({id:s.id,name:s.name,phone:s.phone||'',imei:s.imei||'',items:typeof s.items==='string'?JSON.parse(s.items||'[]'):s.items||[],total:s.total||0,notes:s.notes||'',date:s.date}));
+    data.purchases=purchases.map(p=>({id:p.id,name:p.name,phone:p.phone||'',address:p.address||'',model:p.model,imei:p.imei||'',price:p.price||0,notes:p.notes||'',date:p.date,idphoto:{front:p.id_front||'',back:p.id_back||''}}));
     setSyncUI('ok');
     refreshPage();
   }catch(e){
@@ -577,6 +674,7 @@ function refreshPage(){
   if(currentPage==='dashboard')renderDashboard();
   if(currentPage==='jobs')renderJobs();
   if(currentPage==='sales')renderSales();
+  if(currentPage==='purchases')renderPurchases();
   if(currentPage==='ids')renderIdRecords();
   if(currentPage==='inventory')renderInventory();
   if(currentPage==='customers')renderCustomers();
@@ -817,11 +915,12 @@ function openSaleModal(id){
     document.getElementById('sale-modal-title').textContent='Edit Bill';
     document.getElementById('s-name').value=s.name;
     document.getElementById('s-phone').value=s.phone||'';
+    document.getElementById('s-imei').value=s.imei||'';
     document.getElementById('s-notes').value=s.notes||'';
     billItems=[...s.items];
   }else{
     document.getElementById('sale-modal-title').textContent='New Sale / Bill';
-    ['s-name','s-phone','s-notes'].forEach(x=>document.getElementById(x).value='');
+    ['s-name','s-phone','s-imei','s-notes'].forEach(x=>document.getElementById(x).value='');
     billItems=[{name:'',qty:1,price:0}];
   }
   renderBillItems();openModal('sale-modal');
@@ -862,6 +961,7 @@ async function saveSale(){
     id:editingSaleId||'S'+Date.now().toString().slice(-6),
     name,
     phone:document.getElementById('s-phone').value.trim(),
+    imei:document.getElementById('s-imei').value.trim(),
     items:billItems,
     total:Math.round(total),
     notes:document.getElementById('s-notes').value.trim(),
@@ -922,8 +1022,8 @@ function printBill(saleId){
   document.getElementById('print-area').innerHTML=`
   <div class="slip-page">
     <div class="slip-header">
-      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div></div>
-      <div style="text-align:right"><div style="font-size:13px;color:#1a237e;font-weight:700">📞 9719216912</div><div style="font-size:11px;color:#666;margin-top:3px">Date: ${today}</div></div>
+      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div><div style="font-size:9.5px;color:#888;margin-top:2px">Udyam Reg. No: UDYAM-UP-17-0075360</div></div>
+      <div style="text-align:right"><div style="font-size:13px;color:#1a237e;font-weight:700">📞 9719216912</div><div style="font-size:9.5px;color:#666;margin-top:2px">✉️ naushad_farsi@hotmail.co.uk</div><div style="font-size:11px;color:#666;margin-top:2px">Date: ${today}</div></div>
     </div>
     <div class="slip-title-bar">
       <span>🧾 Sales Invoice / Bill</span>
@@ -948,7 +1048,9 @@ function printBill(saleId){
         </tfoot>
       </table>
     </div>
+    ${s.imei?`<div class="slip-section"><div class="slip-section-title">📱 Device IMEI</div><p style="font-size:13px;font-weight:600">${s.imei}</p></div>`:''}
     ${s.notes?`<div class="slip-section"><div class="slip-section-title">Notes</div><p style="font-size:13px">${s.notes}</p></div>`:''}
+    <div class="slip-section"><div class="slip-section-title">Terms &amp; Conditions</div><p style="font-size:10px;color:#777">Warranty applicable only as stated above. No warranty on Chinese items. No warranty or replacement on old/used phones.</p></div>
     <div class="slip-footer">
       <div><div class="slip-sig">Customer Signature</div></div>
       <div style="text-align:center"><div style="font-size:11px;color:#888;font-style:italic">Thank you for shopping!<br/>Prime Telecom Chandpur<br/>📞 9719216912</div></div>
@@ -968,8 +1070,8 @@ function printSlip(jobId){
   document.getElementById('print-area').innerHTML=`
   <div class="slip-page">
     <div class="slip-header">
-      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div></div>
-      <div style="text-align:right"><div style="font-size:13px;color:#1a237e;font-weight:700">📞 9719216912</div><div style="font-size:11px;color:#666;margin-top:3px">Date: ${today}</div></div>
+      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div><div style="font-size:9.5px;color:#888;margin-top:2px">Udyam Reg. No: UDYAM-UP-17-0075360</div></div>
+      <div style="text-align:right"><div style="font-size:13px;color:#1a237e;font-weight:700">📞 9719216912</div><div style="font-size:9.5px;color:#666;margin-top:2px">✉️ naushad_farsi@hotmail.co.uk</div><div style="font-size:11px;color:#666;margin-top:2px">Date: ${today}</div></div>
     </div>
     <div class="slip-title-bar"><span>🔧 Service Job Card</span><span style="font-size:12px;opacity:0.85">Job: ${j.id}</span></div>
     <div class="slip-section">
@@ -1020,7 +1122,7 @@ function showPrintShare(id,type){
   m.id='share-modal';m.className='modal-overlay open';
   m.innerHTML=`<div class="modal" style="max-width:380px">
     <div class="modal-handle"></div>
-    <div class="modal-title">${type==='bill'?'🧾 Print Bill':'🖨️ Print Slip'}</div>
+    <div class="modal-title">${type==='bill'?'🧾 Print Bill':type==='purchase'?'🛒 Print Purchase Receipt':'🖨️ Print Slip'}</div>
     <div style="display:flex;flex-direction:column;gap:10px">
       <button class="btn btn-primary" onclick="window.print()">🖨️ Print / Save as PDF</button>
       <button class="btn btn-green" onclick="doShare('${id}','${type}')">📤 Share on WhatsApp</button>
@@ -1035,9 +1137,14 @@ function doShare(id,type){
   let text='';
   if(type==='bill'){
     const s=data.sales.find(x=>x.id===id);
-    text=`*Prime Telecom Chandpur*\n📞 9719216912\n\n*Bill No: ${s.id}*\n📅 ${s.date}\n━━━━━━━━━━\n👤 ${s.name}${s.phone?'\n📞 '+s.phone:''}\n━━━━━━━━━━\n`;
+    text=`*Prime Telecom Chandpur*\n📞 9719216912\n\n*Bill No: ${s.id}*\n📅 ${s.date}\n━━━━━━━━━━\n👤 ${s.name}${s.phone?'\n📞 '+s.phone:''}${s.imei?'\nIMEI: '+s.imei:''}\n━━━━━━━━━━\n`;
     s.items.forEach(i=>{text+=`• ${i.name} x${i.qty} = ₹${i.qty*i.price}\n`;});
     text+=`━━━━━━━━━━\n💰 Total: ₹${s.total}\n\nThank you! 🙏`;
+  }else if(type==='purchase'){
+    const p=data.purchases.find(x=>x.id===id);
+    text=`*Prime Telecom Chandpur*\n📞 9719216912\n\n*Purchase No: ${p.id}* · ${p.date}\n━━━━━━━━━━\n👤 ${p.name} · 📞 ${p.phone}\n📱 ${p.model}`;
+    if(p.imei)text+=`\nIMEI: ${p.imei}`;
+    text+=`\n💰 Purchase Price: ₹${p.price}\n━━━━━━━━━━\nThank you! 🙏`;
   }else{
     const j=data.jobs.find(x=>x.id===id);
     text=`*Prime Telecom Chandpur*\n📞 9719216912\n\n*Job: ${j.id}* · ${j.date}\n━━━━━━━━━━\n👤 ${j.name} · 📞 ${j.phone}\n📱 ${j.brand} ${j.model}`;
@@ -1093,6 +1200,206 @@ function openLightbox(jobId,side){
   document.getElementById('lightbox').classList.add('open');
 }
 function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
+
+// ===== PURCHASES (Buy second-hand mobile) =====
+function openPurchaseModal(id){
+  editingPurchaseId=id||null;
+  photoDataPFront='';photoDataPBack='';
+  resetPPhotoUI('front');resetPPhotoUI('back');
+  if(editingPurchaseId){
+    const p=data.purchases.find(x=>x.id===id);
+    document.getElementById('purchase-modal-title').textContent='Edit Purchase';
+    document.getElementById('p-name').value=p.name;
+    document.getElementById('p-phone').value=p.phone;
+    document.getElementById('p-address').value=p.address||'';
+    document.getElementById('p-model').value=p.model;
+    document.getElementById('p-imei').value=p.imei||'';
+    document.getElementById('p-price').value=p.price;
+    document.getElementById('p-notes').value=p.notes||'';
+    if(p.idphoto){
+      if(p.idphoto.front){photoDataPFront=p.idphoto.front;showPPhotoPreview('front',p.idphoto.front);}
+      if(p.idphoto.back){photoDataPBack=p.idphoto.back;showPPhotoPreview('back',p.idphoto.back);}
+    }
+  }else{
+    document.getElementById('purchase-modal-title').textContent='Buy Mobile (Purchase)';
+    ['p-name','p-phone','p-address','p-model','p-imei','p-price','p-notes'].forEach(x=>document.getElementById(x).value='');
+  }
+  openModal('purchase-modal');
+}
+function resetPPhotoUI(side){
+  const img=document.getElementById('p-'+side+'-img');
+  const box=document.getElementById('p-'+side+'-box');
+  img.src='';img.style.display='none';
+  box.querySelector('.photo-icon').style.display='';
+  box.querySelector('.photo-caption').style.display='';
+  document.getElementById('p-'+side+'-remove').style.display='none';
+}
+function capturePPhoto(side){
+  document.getElementById('p-camera-'+side).value='';
+  document.getElementById('p-camera-'+side).click();
+}
+function galleryPPhoto(side){
+  document.getElementById('p-gallery-'+side).value='';
+  document.getElementById('p-gallery-'+side).click();
+}
+function handlePPhotoCapture(event,side){
+  const file=event.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const img=new Image();
+    img.onload=function(){
+      const canvas=document.createElement('canvas');
+      const MAX=800;
+      let w=img.width,h=img.height;
+      if(w>MAX){h=Math.round(h*MAX/w);w=MAX;}
+      if(h>MAX){w=Math.round(w*MAX/h);h=MAX;}
+      canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      const d64=canvas.toDataURL('image/jpeg',0.7);
+      if(side==='front')photoDataPFront=d64;else photoDataPBack=d64;
+      showPPhotoPreview(side,d64);
+      toast('📷 Photo added!');
+    };
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function showPPhotoPreview(side,src){
+  const img=document.getElementById('p-'+side+'-img');
+  const box=document.getElementById('p-'+side+'-box');
+  img.src=src;img.style.display='block';
+  box.querySelector('.photo-icon').style.display='none';
+  box.querySelector('.photo-caption').style.display='none';
+  document.getElementById('p-'+side+'-remove').style.display='flex';
+}
+function removePPhoto(event,side){
+  event.stopPropagation();
+  if(side==='front')photoDataPFront='';else photoDataPBack='';
+  resetPPhotoUI(side);
+}
+async function savePurchase(){
+  const name=document.getElementById('p-name').value.trim();
+  const phone=document.getElementById('p-phone').value.trim();
+  const model=document.getElementById('p-model').value.trim();
+  const price=document.getElementById('p-price').value;
+  if(!name||!phone||!model||!price){toast('⚠️ Seller Name, Mobile, Model aur Price bharna zaroori hai');return;}
+  const btn=document.getElementById('save-purchase-btn');
+  btn.innerHTML='<span class="spinner"></span> Saving...';btn.disabled=true;
+  const row={
+    id:editingPurchaseId||'B'+Date.now().toString().slice(-6),
+    name,phone,
+    address:document.getElementById('p-address').value.trim(),
+    model,
+    imei:document.getElementById('p-imei').value.trim(),
+    price:parseInt(price)||0,
+    notes:document.getElementById('p-notes').value.trim(),
+    date:new Date().toLocaleDateString('en-CA'),
+    id_front:photoDataPFront,
+    id_back:photoDataPBack
+  };
+  try{
+    await sbUpsert('purchases',row);
+    toast(editingPurchaseId?'✅ Purchase updated!':'✅ Purchase saved to cloud!');
+    closeModal('purchase-modal');await loadAll();
+  }catch(e){toast('❌ Save failed: '+e.message);}
+  btn.innerHTML='💾 Save Purchase';btn.disabled=false;
+}
+function editPurchase(id){openPurchaseModal(id);}
+async function deletePurchase(id){
+  if(!confirm('Delete this purchase record?'))return;
+  try{await sbDelete('purchases',id);toast('Deleted');await loadAll();}
+  catch(e){toast('❌ Error');}
+}
+function renderPurchases(){
+  const q=purchaseSearchQ.toLowerCase();
+  const purchases=data.purchases.filter(p=>!q||p.name.toLowerCase().includes(q)||(p.phone||'').includes(q)||p.model.toLowerCase().includes(q)||(p.imei&&p.imei.includes(q)));
+  const el=document.getElementById('purchases-list');
+  if(!purchases.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon">🛒</div><h3>No purchases yet</h3><p>Tap + to record a mobile buy</p></div>`;return;}
+  el.innerHTML=purchases.slice().reverse().map(p=>`
+    <div class="sale-card">
+      <div class="sale-top">
+        <div>
+          <div style="font-size:11px;color:var(--muted);font-weight:600">${p.id} · ${p.date}</div>
+          <div style="font-size:15px;font-weight:600;margin-top:2px">${p.name}</div>
+          <div style="font-size:12px;color:var(--muted)">📞 ${p.phone}${p.address?' · 🏠 '+p.address:''}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">📱 ${p.model}${p.imei?' · IMEI: '+p.imei:''}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:18px;font-weight:700;color:var(--yellow)">₹${p.price}</div>
+          <span class="badge badge-purchase" style="margin-top:4px">Purchase</span>
+        </div>
+      </div>
+      <div class="id-photos">
+        <div class="id-photo-thumb ${p.idphoto&&p.idphoto.front?'':'empty'}" onclick="${p.idphoto&&p.idphoto.front?`openPLightbox('${p.id}','front')`:'void(0)'}">
+          ${p.idphoto&&p.idphoto.front?`<img src="${p.idphoto.front}"/>`:'<span>No Front</span>'}
+        </div>
+        <div class="id-photo-thumb ${p.idphoto&&p.idphoto.back?'':'empty'}" onclick="${p.idphoto&&p.idphoto.back?`openPLightbox('${p.id}','back')`:'void(0)'}">
+          ${p.idphoto&&p.idphoto.back?`<img src="${p.idphoto.back}"/>`:'<span>No Back</span>'}
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:10px">
+        <button class="btn btn-blue btn-sm" onclick='printPurchase("${p.id}")' style="flex:1;justify-content:center">🖨️ Print Receipt</button>
+        <button class="btn btn-ghost btn-sm" onclick='editPurchase("${p.id}")'>✏️</button>
+        <button class="btn btn-danger btn-sm" onclick='deletePurchase("${p.id}")'>🗑️</button>
+      </div>
+    </div>`).join('');
+}
+function filterPurchases(v){purchaseSearchQ=v;renderPurchases();}
+function openPLightbox(id,side){
+  const p=data.purchases.find(x=>x.id===id);if(!p||!p.idphoto)return;
+  const src=side==='front'?p.idphoto.front:p.idphoto.back;if(!src)return;
+  document.getElementById('lightbox-img').src=src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function purchaseSlipHTML(p){
+  const today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  const frontHTML=p.idphoto&&p.idphoto.front?`<img src="${p.idphoto.front}" alt="Front"/>`:`<div class="slip-photo-empty">No photo</div>`;
+  const backHTML=p.idphoto&&p.idphoto.back?`<img src="${p.idphoto.back}" alt="Back"/>`:`<div class="slip-photo-empty">No photo</div>`;
+  return `
+  <div class="slip-page">
+    <div class="slip-header">
+      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div><div style="font-size:9.5px;color:#888;margin-top:2px">Udyam Reg. No: UDYAM-UP-17-0075360</div></div>
+      <div style="text-align:right"><div style="font-size:13px;color:#1a237e;font-weight:700">📞 9719216912</div><div style="font-size:9.5px;color:#666;margin-top:2px">✉️ naushad_farsi@hotmail.co.uk</div><div style="font-size:11px;color:#666;margin-top:2px">Date: ${today}</div></div>
+    </div>
+    <div class="slip-title-bar"><span>🛒 Mobile Purchase Receipt</span><span style="font-size:12px;opacity:0.85">Purchase No: ${p.id}</span></div>
+    <div class="slip-section">
+      <div class="slip-section-title">👤 Seller Details</div>
+      <div class="slip-grid">
+        <div class="slip-field"><label>Name</label><p>${p.name}</p></div>
+        <div class="slip-field"><label>Mobile</label><p>${p.phone}</p></div>
+        <div class="slip-field" style="grid-column:1/-1"><label>Address</label><p>${p.address||'—'}</p></div>
+      </div>
+    </div>
+    <div class="slip-section">
+      <div class="slip-section-title">📱 Device Purchased</div>
+      <div class="slip-grid">
+        <div class="slip-field"><label>Model</label><p>${p.model}</p></div>
+        <div class="slip-field"><label>IMEI</label><p>${p.imei||'Not Provided'}</p></div>
+        <div class="slip-field"><label>Date</label><p>${p.date}</p></div>
+        <div class="slip-field"><label>Purchase Price</label><p style="font-size:15px;font-weight:800;color:#1a237e">₹${p.price}</p></div>
+      </div>
+      ${p.notes?`<div class="slip-field" style="grid-column:1/-1;margin-top:6px"><label>Notes</label><p>${p.notes}</p></div>`:''}
+    </div>
+    <div class="slip-section">
+      <div class="slip-section-title">🪪 ID / Bill Proof</div>
+      <div class="slip-photos">
+        <div class="slip-photo-box"><div class="slip-photo-label">Front</div>${frontHTML}</div>
+        <div class="slip-photo-box"><div class="slip-photo-label">Back</div>${backHTML}</div>
+      </div>
+    </div>
+    <div class="slip-section"><div class="slip-section-title">Terms &amp; Conditions</div><p style="font-size:10px;color:#777">Device purchased as-is on seller's declaration. No warranty on Chinese items. No warranty or replacement on old/used phones.</p></div>
+    <div class="slip-footer">
+      <div><div class="slip-sig">Seller Signature</div></div>
+      <div><div class="slip-sig">Shop Signature</div></div>
+      <div style="text-align:right;font-size:10px;color:#888;font-style:italic">Prime Telecom Chandpur<br/>📞 9719216912<br/>Thank you! 🙏</div>
+    </div>
+  </div>`;
+}
+function printPurchase(id){
+  const p=data.purchases.find(x=>x.id===id);if(!p)return;
+  document.getElementById('print-area').innerHTML=purchaseSlipHTML(p);
+  showPrintShare(p.id,'purchase');
+}
 
 // ===== INVENTORY =====
 function renderInventory(){
@@ -1233,21 +1540,13 @@ function toast(msg){
 
 
 // ===== BACKUP / EXPORT =====
-// ⚠️ Google Drive backup ke liye apna OAuth Client ID yahan paste karo (neeche instructions dekho)
-// Setup steps:
-// 1) console.cloud.google.com pe jao → naya project banao (ya Firebase wala hi use karo)
-// 2) "APIs & Services" → "Enabled APIs" → "Google Drive API" enable karo
-// 3) "Credentials" → "Create Credentials" → "OAuth client ID" → Application type: "Web application"
-// 4) "Authorized JavaScript origins" mein apni GitHub Pages URL daalo (jaise https://primetelecomcpr.github.io)
-// 5) Client ID copy karke neeche paste karo
-const GOOGLE_CLIENT_ID = "";
-
 function buildBackupObject(){
   return {
     app:'Prime Telecom Chandpur',
     backup_date:new Date().toISOString(),
     jobs:data.jobs,
     sales:data.sales,
+    purchases:data.purchases,
     inventory:data.inventory,
     customers:data.customers
   };
@@ -1265,8 +1564,8 @@ function jobSlipHTML(j){
   return `
   <div class="slip-page">
     <div class="slip-header">
-      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div></div>
-      <div style="text-align:right"><div style="font-size:13px;color:#1a237e;font-weight:700">📞 9719216912</div><div style="font-size:11px;color:#666;margin-top:3px">Date: ${today}</div></div>
+      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div><div style="font-size:9.5px;color:#888;margin-top:2px">Udyam Reg. No: UDYAM-UP-17-0075360</div></div>
+      <div style="text-align:right"><div style="font-size:13px;color:#1a237e;font-weight:700">📞 9719216912</div><div style="font-size:9.5px;color:#666;margin-top:2px">✉️ naushad_farsi@hotmail.co.uk</div><div style="font-size:11px;color:#666;margin-top:2px">Date: ${today}</div></div>
     </div>
     <div class="slip-title-bar"><span>🔧 Service Job Card</span><span style="font-size:12px;opacity:0.85">Job: ${j.id}</span></div>
     <div class="slip-section">
@@ -1321,8 +1620,8 @@ function saleSlipHTML(s){
   return `
   <div class="slip-page">
     <div class="slip-header">
-      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div></div>
-      <div style="text-align:right"><div style="font-size:13px;color:#1a237e;font-weight:700">📞 9719216912</div></div>
+      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div><div style="font-size:9.5px;color:#888;margin-top:2px">Udyam Reg. No: UDYAM-UP-17-0075360</div></div>
+      <div style="text-align:right"><div style="font-size:13px;color:#1a237e;font-weight:700">📞 9719216912</div><div style="font-size:9.5px;color:#666;margin-top:2px">✉️ naushad_farsi@hotmail.co.uk</div></div>
     </div>
     <div class="slip-title-bar">
       <span>🧾 Sales Invoice / Bill</span>
@@ -1347,18 +1646,125 @@ function saleSlipHTML(s){
         </tfoot>
       </table>
     </div>
+    ${s.imei?`<div class="slip-section"><div class="slip-section-title">📱 Device IMEI</div><p style="font-size:13px;font-weight:600">${s.imei}</p></div>`:''}
     ${s.notes?`<div class="slip-section"><div class="slip-section-title">Notes</div><p style="font-size:13px">${s.notes}</p></div>`:''}
+    <div class="slip-section"><div class="slip-section-title">Terms &amp; Conditions</div><p style="font-size:10px;color:#777">Warranty applicable only as stated above. No warranty on Chinese items. No warranty or replacement on old/used phones.</p></div>
     <div class="slip-footer">
       <div><div class="slip-sig">Customer Signature</div></div>
       <div style="text-align:center"><div style="font-size:11px;color:#888;font-style:italic">Thank you for shopping!<br/>Prime Telecom Chandpur<br/>📞 9719216912</div></div>
     </div>
   </div>`;
 }
+// ===== MONTHLY EXPORTS (Excel / PDF) =====
+function getExportMonth(){
+  return (document.getElementById('export-month')||{}).value||'';
+}
+function exportSalesExcel(scope){
+  if(typeof XLSX==='undefined'){toast('❌ Excel library load nahi hui, internet check karo');return;}
+  const wb=XLSX.utils.book_new();
+  const rowsFor=list=>list.map(s=>({
+    'Bill No':s.id,'Date':s.date,'Customer':s.name,'Phone':s.phone||'',
+    'IMEI':s.imei||'','Items':(s.items||[]).map(i=>`${i.name} x${i.qty}`).join(', '),
+    'Total (₹)':s.total,'Notes':s.notes||''
+  }));
+  if(scope==='month'){
+    const m=getExportMonth();
+    if(!m){toast('⚠️ Pehle Select Month choose karo');return;}
+    const list=data.sales.filter(s=>(s.date||'').startsWith(m));
+    if(!list.length){toast('⚠️ Is month mein koi sale nahi mili');return;}
+    const ws=XLSX.utils.json_to_sheet(rowsFor(list));
+    XLSX.utils.book_append_sheet(wb,ws,m);
+    XLSX.writeFile(wb,`Prime-Telecom-Sales-${m}.xlsx`);
+  }else{
+    const byMonth={};
+    data.sales.forEach(s=>{const m=(s.date||'').slice(0,7)||'unknown';(byMonth[m]=byMonth[m]||[]).push(s);});
+    const months=Object.keys(byMonth).sort();
+    if(!months.length){toast('⚠️ Koi sales data nahi hai');return;}
+    months.forEach(m=>{
+      const ws=XLSX.utils.json_to_sheet(rowsFor(byMonth[m]));
+      XLSX.utils.book_append_sheet(wb,ws,m.slice(0,31));
+    });
+    XLSX.writeFile(wb,`Prime-Telecom-Sales-All-Months.xlsx`);
+  }
+  toast('📊 Sales Excel export ho gaya!');
+}
+function exportPurchasesExcel(scope){
+  if(typeof XLSX==='undefined'){toast('❌ Excel library load nahi hui, internet check karo');return;}
+  const wb=XLSX.utils.book_new();
+  const rowsFor=list=>list.map(p=>({
+    'Purchase No':p.id,'Date':p.date,'Seller Name':p.name,'Phone':p.phone||'',
+    'Address':p.address||'','Model':p.model,'IMEI':p.imei||'',
+    'Price (₹)':p.price,'Notes':p.notes||''
+  }));
+  if(scope==='month'){
+    const m=getExportMonth();
+    if(!m){toast('⚠️ Pehle Select Month choose karo');return;}
+    const list=data.purchases.filter(p=>(p.date||'').startsWith(m));
+    if(!list.length){toast('⚠️ Is month mein koi purchase nahi mili');return;}
+    const ws=XLSX.utils.json_to_sheet(rowsFor(list));
+    XLSX.utils.book_append_sheet(wb,ws,m);
+    XLSX.writeFile(wb,`Prime-Telecom-Purchases-${m}.xlsx`);
+  }else{
+    const byMonth={};
+    data.purchases.forEach(p=>{const m=(p.date||'').slice(0,7)||'unknown';(byMonth[m]=byMonth[m]||[]).push(p);});
+    const months=Object.keys(byMonth).sort();
+    if(!months.length){toast('⚠️ Koi purchase data nahi hai');return;}
+    months.forEach(m=>{
+      const ws=XLSX.utils.json_to_sheet(rowsFor(byMonth[m]));
+      XLSX.utils.book_append_sheet(wb,ws,m.slice(0,31));
+    });
+    XLSX.writeFile(wb,`Prime-Telecom-Purchases-All-Months.xlsx`);
+  }
+  toast('🛒 Purchases Excel export ho gaya!');
+}
+async function exportIdRecordsPDF(){
+  if(typeof window.jspdf==='undefined'){toast('❌ PDF library load nahi hui, internet check karo');return;}
+  const m=getExportMonth();
+  if(!m){toast('⚠️ Pehle Select Month choose karo');return;}
+  const records=data.jobs.filter(j=>(j.type==='Software'||j.type==='Unlocking')&&(j.date||'').startsWith(m));
+  if(!records.length){toast('⚠️ Is month mein koi Software/Unlocking record nahi mila');return;}
+  toast('📄 PDF ban raha hai, thoda ruko...');
+  await new Promise(r=>setTimeout(r,50));
+  try{
+    const {jsPDF}=window.jspdf;
+    const doc=new jsPDF({unit:'mm',format:'a4'});
+    records.forEach((j,idx)=>{
+      if(idx>0)doc.addPage();
+      let y=15;
+      doc.setFontSize(15);doc.setTextColor(26,35,126);
+      doc.text('Prime Telecom Chandpur - ID Record',15,y);y+=6;
+      doc.setFontSize(9);doc.setTextColor(120);
+      doc.text('Udyam Reg. No: UDYAM-UP-17-0075360',15,y);y+=6;
+      doc.setFontSize(10);doc.setTextColor(80);
+      doc.text(`Job ID: ${j.id}     Date: ${j.date}`,15,y);y+=7;
+      doc.setDrawColor(200);doc.line(15,y,195,y);y+=7;
+      doc.setFontSize(11);doc.setTextColor(20);
+      doc.text(`Name: ${j.name}`,15,y);y+=6;
+      doc.text(`Mobile: ${j.phone}`,15,y);y+=6;
+      doc.text(`Device: ${j.brand} ${j.model}`,15,y);y+=6;
+      doc.text(`IMEI: ${j.imei||'Not Provided'}`,15,y);y+=6;
+      doc.text(`Service Type: ${j.type}`,15,y);y+=6;
+      const issueLines=doc.splitTextToSize(`Issue: ${j.issue}`,180);
+      doc.text(issueLines,15,y);y+=6*issueLines.length;
+      doc.text(`Charge: Rs. ${j.charge}`,15,y);y+=10;
+      const imgW=85,imgH=55;
+      try{ if(j.aadhaar&&j.aadhaar.front) doc.addImage(j.aadhaar.front,'JPEG',15,y,imgW,imgH); }catch(e){}
+      try{ if(j.aadhaar&&j.aadhaar.back) doc.addImage(j.aadhaar.back,'JPEG',110,y,imgW,imgH); }catch(e){}
+      doc.setFontSize(9);doc.setTextColor(120);
+      doc.text('ID Front',15,y+imgH+5);
+      doc.text('ID Back',110,y+imgH+5);
+    });
+    doc.save(`Prime-Telecom-ID-Records-${m}.pdf`);
+    toast('✅ ID Records PDF download ho gaya!');
+  }catch(e){toast('❌ PDF export failed: '+e.message);}
+}
+
 function downloadReadableBackup(){
   try{
     const today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
     const jobsHTML=data.jobs.slice().reverse().map(jobSlipHTML).join('<div style="page-break-after:always"></div>');
     const salesHTML=data.sales.slice().reverse().map(saleSlipHTML).join('<div style="page-break-after:always"></div>');
+    const purchasesHTML=data.purchases.slice().reverse().map(purchaseSlipHTML).join('<div style="page-break-after:always"></div>');
     const slipCSS=`
       body{font-family:Arial,sans-serif;background:#e5e7eb;margin:0;padding:20px 0;}
       .slip-page{font-family:Arial,sans-serif;background:#fff;color:#111;width:100%;max-width:700px;padding:10mm 12mm;box-sizing:border-box;margin:0 auto 20px;box-shadow:0 2px 10px rgba(0,0,0,0.15);border-radius:6px;}
@@ -1399,16 +1805,20 @@ function downloadReadableBackup(){
   <div class="tabs">
     <button class="tab-btn active" id="tab-btn-jobs" onclick="showTab('jobs')">🔧 Service Jobs (${data.jobs.length})</button>
     <button class="tab-btn" id="tab-btn-sales" onclick="showTab('sales')">🧾 Sales Bills (${data.sales.length})</button>
+    <button class="tab-btn" id="tab-btn-purchases" onclick="showTab('purchases')">🛒 Purchases (${data.purchases.length})</button>
   </div>
-  <div class="summary">📦 <b>Prime Telecom Chandpur</b> — Full Bills Backup · Generated on ${today} · ${data.jobs.length} job cards, ${data.sales.length} sales bills</div>
+  <div class="summary">📦 <b>Prime Telecom Chandpur</b> — Full Bills Backup · Generated on ${today} · ${data.jobs.length} job cards, ${data.sales.length} sales bills, ${data.purchases.length} purchases</div>
   <div class="tab-content active" id="tab-jobs">${jobsHTML||'<div class="summary">No job cards yet.</div>'}</div>
   <div class="tab-content" id="tab-sales">${salesHTML||'<div class="summary">No sales bills yet.</div>'}</div>
+  <div class="tab-content" id="tab-purchases">${purchasesHTML||'<div class="summary">No purchases yet.</div>'}</div>
   <script>
     function showTab(t){
       document.getElementById('tab-jobs').classList.toggle('active',t==='jobs');
       document.getElementById('tab-sales').classList.toggle('active',t==='sales');
+      document.getElementById('tab-purchases').classList.toggle('active',t==='purchases');
       document.getElementById('tab-btn-jobs').classList.toggle('active',t==='jobs');
       document.getElementById('tab-btn-sales').classList.toggle('active',t==='sales');
+      document.getElementById('tab-btn-purchases').classList.toggle('active',t==='purchases');
     }
   <\/script>
 </body></html>`;
@@ -1436,49 +1846,6 @@ function downloadBackup(){
     URL.revokeObjectURL(url);
     toast('📥 Backup downloaded!');
   }catch(e){toast('❌ Backup failed: '+e.message);}
-}
-function backupToDrive(){
-  const statusEl=document.getElementById('drive-status');
-  if(!GOOGLE_CLIENT_ID){
-    statusEl.innerHTML='⚠️ Google Drive setup abhi baaki hai (code mein Client ID daalna hoga)';
-    statusEl.style.color='var(--yellow)';
-    return;
-  }
-  if(typeof google==='undefined'||!google.accounts){
-    statusEl.textContent='❌ Google login load nahi hua, internet check karo';
-    statusEl.style.color='var(--red)';
-    return;
-  }
-  statusEl.textContent='🔄 Google se login ho raha hai...';
-  statusEl.style.color='var(--muted)';
-  const tokenClient=google.accounts.oauth2.initTokenClient({
-    client_id:GOOGLE_CLIENT_ID,
-    scope:'https://www.googleapis.com/auth/drive.file',
-    callback:async(resp)=>{
-      if(resp.error){statusEl.textContent='❌ Login cancel/error ho gaya';statusEl.style.color='var(--red)';return;}
-      try{
-        statusEl.textContent='☁️ Drive pe upload ho raha hai...';
-        const json=JSON.stringify(buildBackupObject(),null,2);
-        const fileName=backupFileName();
-        const boundary='primetelecombackup';
-        const metadata={name:fileName,mimeType:'application/json'};
-        const body=
-          `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(metadata)}\r\n`+
-          `--${boundary}\r\nContent-Type: application/json\r\n\r\n${json}\r\n`+
-          `--${boundary}--`;
-        const res=await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',{
-          method:'POST',
-          headers:{'Authorization':'Bearer '+resp.access_token,'Content-Type':`multipart/related; boundary=${boundary}`},
-          body
-        });
-        if(!res.ok)throw new Error('Upload failed ('+res.status+')');
-        statusEl.textContent='✅ Google Drive pe backup ho gaya!';
-        statusEl.style.color='var(--green)';
-        toast('☁️ Google Drive backup done!');
-      }catch(e){statusEl.textContent='❌ Upload error: '+e.message;statusEl.style.color='var(--red)';}
-    }
-  });
-  tokenClient.requestAccessToken();
 }
 
 // Firebase configured ✅
