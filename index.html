@@ -141,29 +141,28 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   .slip-page{page-break-after:always;}
 }
 .slip-page{font-family:Arial,sans-serif;background:#fff;color:#111;width:210mm;min-height:297mm;padding:14mm 16mm;box-sizing:border-box;font-size:13.5px;margin:0 auto;}
-.slip-header{background:linear-gradient(135deg,#1a237e,#283593);color:#fff;padding:16px 20px;border-radius:12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:flex-start;box-shadow:0 4px 14px rgba(26,35,126,0.28);position:relative;overflow:hidden;}
-.slip-header::after{content:'';position:absolute;top:-30px;right:-30px;width:110px;height:110px;background:rgba(245,158,11,0.25);border-radius:50%;}
-.slip-shop-name{font-size:22px;font-weight:800;color:#fff;letter-spacing:0.3px;position:relative;}
-.slip-shop-sub{font-size:11px;color:#c5cae9;margin-top:3px;position:relative;}
-.slip-title-bar{background:linear-gradient(90deg,#f59e0b,#fbbf24);color:#1a1a1a;padding:9px 16px;border-radius:8px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:800;letter-spacing:0.4px;box-shadow:0 2px 8px rgba(245,158,11,0.3);}
-.slip-section{margin-bottom:14px;}
-.slip-section-title{font-size:11px;font-weight:800;color:#fff;background:#1a237e;text-transform:uppercase;letter-spacing:1px;padding:5px 12px;margin-bottom:10px;border-radius:5px;display:inline-block;}
-.slip-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;}
-.slip-field label{font-size:9.5px;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:0.3px;}
-.slip-field p{font-size:13.5px;font-weight:700;margin-top:2px;color:#1a1a1a;border-bottom:1.5px solid #f0f0f0;padding-bottom:4px;}
-.slip-photos{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.slip-photo-box{border:1.5px solid #ddd;border-radius:8px;overflow:hidden;aspect-ratio:4/3;box-shadow:0 1px 5px rgba(0,0,0,0.08);}
+.slip-header{border-bottom:3px solid #1a237e;padding-bottom:8px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:flex-start;}
+.slip-shop-name{font-size:20px;font-weight:800;color:#1a237e;}
+.slip-shop-sub{font-size:11px;color:#555;margin-top:2px;}
+.slip-title-bar{background:#1a237e;color:#fff;padding:7px 12px;border-radius:6px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:700;}
+.slip-section{margin-bottom:12px;}
+.slip-section-title{font-size:10px;font-weight:700;color:#1a237e;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #dde;padding-bottom:3px;margin-bottom:8px;}
+.slip-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;}
+.slip-field label{font-size:10px;color:#666;font-weight:600;text-transform:uppercase;}
+.slip-field p{font-size:13px;font-weight:600;margin-top:1px;border-bottom:1px solid #eee;padding-bottom:3px;}
+.slip-photos{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.slip-photo-box{border:1px solid #bbb;border-radius:6px;overflow:hidden;aspect-ratio:4/3;}
 .slip-photo-box img{width:100%;height:100%;display:block;object-fit:contain;background:#f5f5f5;}
-.slip-photo-label{font-size:10px;color:#fff;font-weight:700;text-align:center;padding:5px;background:#1a237e;text-transform:uppercase;letter-spacing:0.5px;}
-.slip-photo-empty{height:90px;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:12px;background:#fafafa;}
-.slip-footer{margin-top:22px;border-top:3px solid #f59e0b;padding-top:12px;display:flex;justify-content:space-between;align-items:flex-end;}
-.slip-sig{border-top:1.5px solid #999;width:140px;text-align:center;padding-top:4px;font-size:10px;color:#666;font-weight:600;}
+.slip-photo-label{font-size:10px;color:#555;font-weight:600;text-align:center;padding:4px;background:#eee;text-transform:uppercase;}
+.slip-photo-empty{height:90px;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:12px;}
+.slip-footer{margin-top:16px;border-top:1px solid #ddd;padding-top:8px;display:flex;justify-content:space-between;align-items:flex-end;}
+.slip-sig{border-top:1px solid #999;width:130px;text-align:center;padding-top:3px;font-size:10px;color:#666;}
 /* BILL SLIP */
 .bill-slip-items{width:100%;border-collapse:collapse;margin:8px 0;}
-.bill-slip-items th{text-align:left;padding:8px 10px;background:#1a237e;color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:0.4px;}
-.bill-slip-items td{padding:8px 10px;border-bottom:1px solid #eee;font-size:12.5px;}
-.bill-total-row{background:#fff8e1;}
-.bill-total-row td{font-weight:800;font-size:14px;color:#1a237e;border-top:2px solid #f59e0b;}
+.bill-slip-items th{text-align:left;padding:5px 8px;border-bottom:2px solid #1a237e;font-size:11px;color:#1a237e;text-transform:uppercase;}
+.bill-slip-items td{padding:6px 8px;border-bottom:1px solid #eee;font-size:12px;}
+.bill-total-row{background:#f0f4ff;}
+.bill-total-row td{font-weight:700;font-size:13px;color:#1a237e;}
 @media(min-width:600px){.modal{border-radius:16px;margin:auto;max-height:85vh;}.modal-overlay{align-items:center;}.stats-row{grid-template-columns:repeat(6,1fr);}}
 </style>
 </head>
@@ -1023,8 +1022,8 @@ function printBill(saleId){
   document.getElementById('print-area').innerHTML=`
   <div class="slip-page">
     <div class="slip-header">
-      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div><div style="font-size:9.5px;color:#c5cae9;margin-top:3px">Udyam Reg. No: UDYAM-UP-17-0075360</div></div>
-      <div style="text-align:right"><div style="font-size:14px;color:#fff;font-weight:800">📞 9719216912</div><div style="font-size:9.5px;color:#c5cae9;margin-top:3px">✉️ naushad_farsi@hotmail.co.uk</div><div style="font-size:11px;color:#c5cae9;margin-top:3px">Date: ${today}</div></div>
+      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div><div style="font-size:9.5px;color:#888;margin-top:2px">Udyam Reg. No: UDYAM-UP-17-0075360</div></div>
+      <div style="text-align:right"><div style="font-size:13px;color:#1a237e;font-weight:700">📞 9719216912</div><div style="font-size:9.5px;color:#666;margin-top:2px">✉️ naushad_farsi@hotmail.co.uk</div><div style="font-size:11px;color:#666;margin-top:2px">Date: ${today}</div></div>
     </div>
     <div class="slip-title-bar">
       <span>🧾 Sales Invoice / Bill</span>
@@ -1071,8 +1070,8 @@ function printSlip(jobId){
   document.getElementById('print-area').innerHTML=`
   <div class="slip-page">
     <div class="slip-header">
-      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div><div style="font-size:9.5px;color:#c5cae9;margin-top:3px">Udyam Reg. No: UDYAM-UP-17-0075360</div></div>
-      <div style="text-align:right"><div style="font-size:14px;color:#fff;font-weight:800">📞 9719216912</div><div style="font-size:9.5px;color:#c5cae9;margin-top:3px">✉️ naushad_farsi@hotmail.co.uk</div><div style="font-size:11px;color:#c5cae9;margin-top:3px">Date: ${today}</div></div>
+      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div><div style="font-size:9.5px;color:#888;margin-top:2px">Udyam Reg. No: UDYAM-UP-17-0075360</div></div>
+      <div style="text-align:right"><div style="font-size:13px;color:#1a237e;font-weight:700">📞 9719216912</div><div style="font-size:9.5px;color:#666;margin-top:2px">✉️ naushad_farsi@hotmail.co.uk</div><div style="font-size:11px;color:#666;margin-top:2px">Date: ${today}</div></div>
     </div>
     <div class="slip-title-bar"><span>🔧 Service Job Card</span><span style="font-size:12px;opacity:0.85">Job: ${j.id}</span></div>
     <div class="slip-section">
@@ -1359,8 +1358,8 @@ function purchaseSlipHTML(p){
   return `
   <div class="slip-page">
     <div class="slip-header">
-      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div><div style="font-size:9.5px;color:#c5cae9;margin-top:3px">Udyam Reg. No: UDYAM-UP-17-0075360</div></div>
-      <div style="text-align:right"><div style="font-size:14px;color:#fff;font-weight:800">📞 9719216912</div><div style="font-size:9.5px;color:#c5cae9;margin-top:3px">✉️ naushad_farsi@hotmail.co.uk</div><div style="font-size:11px;color:#c5cae9;margin-top:3px">Date: ${today}</div></div>
+      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div><div style="font-size:9.5px;color:#888;margin-top:2px">Udyam Reg. No: UDYAM-UP-17-0075360</div></div>
+      <div style="text-align:right"><div style="font-size:13px;color:#1a237e;font-weight:700">📞 9719216912</div><div style="font-size:9.5px;color:#666;margin-top:2px">✉️ naushad_farsi@hotmail.co.uk</div><div style="font-size:11px;color:#666;margin-top:2px">Date: ${today}</div></div>
     </div>
     <div class="slip-title-bar"><span>🛒 Mobile Purchase Receipt</span><span style="font-size:12px;opacity:0.85">Purchase No: ${p.id}</span></div>
     <div class="slip-section">
@@ -1565,8 +1564,8 @@ function jobSlipHTML(j){
   return `
   <div class="slip-page">
     <div class="slip-header">
-      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div><div style="font-size:9.5px;color:#c5cae9;margin-top:3px">Udyam Reg. No: UDYAM-UP-17-0075360</div></div>
-      <div style="text-align:right"><div style="font-size:14px;color:#fff;font-weight:800">📞 9719216912</div><div style="font-size:9.5px;color:#c5cae9;margin-top:3px">✉️ naushad_farsi@hotmail.co.uk</div><div style="font-size:11px;color:#c5cae9;margin-top:3px">Date: ${today}</div></div>
+      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div><div style="font-size:9.5px;color:#888;margin-top:2px">Udyam Reg. No: UDYAM-UP-17-0075360</div></div>
+      <div style="text-align:right"><div style="font-size:13px;color:#1a237e;font-weight:700">📞 9719216912</div><div style="font-size:9.5px;color:#666;margin-top:2px">✉️ naushad_farsi@hotmail.co.uk</div><div style="font-size:11px;color:#666;margin-top:2px">Date: ${today}</div></div>
     </div>
     <div class="slip-title-bar"><span>🔧 Service Job Card</span><span style="font-size:12px;opacity:0.85">Job: ${j.id}</span></div>
     <div class="slip-section">
@@ -1621,8 +1620,8 @@ function saleSlipHTML(s){
   return `
   <div class="slip-page">
     <div class="slip-header">
-      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div><div style="font-size:9.5px;color:#c5cae9;margin-top:3px">Udyam Reg. No: UDYAM-UP-17-0075360</div></div>
-      <div style="text-align:right"><div style="font-size:14px;color:#fff;font-weight:800">📞 9719216912</div><div style="font-size:9.5px;color:#c5cae9;margin-top:3px">✉️ naushad_farsi@hotmail.co.uk</div></div>
+      <div><div class="slip-shop-name">📱 Prime Telecom Chandpur</div><div class="slip-shop-sub">Mobile Repair · Software · Unlocking · Accessories</div><div style="font-size:9.5px;color:#888;margin-top:2px">Udyam Reg. No: UDYAM-UP-17-0075360</div></div>
+      <div style="text-align:right"><div style="font-size:13px;color:#1a237e;font-weight:700">📞 9719216912</div><div style="font-size:9.5px;color:#666;margin-top:2px">✉️ naushad_farsi@hotmail.co.uk</div></div>
     </div>
     <div class="slip-title-bar">
       <span>🧾 Sales Invoice / Bill</span>
@@ -1769,28 +1768,27 @@ function downloadReadableBackup(){
     const slipCSS=`
       body{font-family:Arial,sans-serif;background:#e5e7eb;margin:0;padding:20px 0;}
       .slip-page{font-family:Arial,sans-serif;background:#fff;color:#111;width:100%;max-width:700px;padding:10mm 12mm;box-sizing:border-box;margin:0 auto 20px;box-shadow:0 2px 10px rgba(0,0,0,0.15);border-radius:6px;}
-      .slip-header{background:linear-gradient(135deg,#1a237e,#283593);color:#fff;padding:16px 20px;border-radius:12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:flex-start;box-shadow:0 4px 14px rgba(26,35,126,0.28);position:relative;overflow:hidden;}
-      .slip-header::after{content:'';position:absolute;top:-30px;right:-30px;width:110px;height:110px;background:rgba(245,158,11,0.25);border-radius:50%;}
-      .slip-shop-name{font-size:22px;font-weight:800;color:#fff;letter-spacing:0.3px;position:relative;}
-      .slip-shop-sub{font-size:11px;color:#c5cae9;margin-top:3px;position:relative;}
-      .slip-title-bar{background:linear-gradient(90deg,#f59e0b,#fbbf24);color:#1a1a1a;padding:9px 16px;border-radius:8px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:800;letter-spacing:0.4px;box-shadow:0 2px 8px rgba(245,158,11,0.3);}
-      .slip-section{margin-bottom:14px;}
-      .slip-section-title{font-size:11px;font-weight:800;color:#fff;background:#1a237e;text-transform:uppercase;letter-spacing:1px;padding:5px 12px;margin-bottom:10px;border-radius:5px;display:inline-block;}
-      .slip-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;}
-      .slip-field label{font-size:9.5px;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:0.3px;}
-      .slip-field p{font-size:13.5px;font-weight:700;margin-top:2px;color:#1a1a1a;border-bottom:1.5px solid #f0f0f0;padding-bottom:4px;}
-      .slip-photos{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-      .slip-photo-box{border:1.5px solid #ddd;border-radius:8px;overflow:hidden;aspect-ratio:4/3;box-shadow:0 1px 5px rgba(0,0,0,0.08);}
+      .slip-header{border-bottom:3px solid #1a237e;padding-bottom:8px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:flex-start;}
+      .slip-shop-name{font-size:20px;font-weight:800;color:#1a237e;}
+      .slip-shop-sub{font-size:11px;color:#555;margin-top:2px;}
+      .slip-title-bar{background:#1a237e;color:#fff;padding:7px 12px;border-radius:6px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:700;}
+      .slip-section{margin-bottom:12px;}
+      .slip-section-title{font-size:10px;font-weight:700;color:#1a237e;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #dde;padding-bottom:3px;margin-bottom:8px;}
+      .slip-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;}
+      .slip-field label{font-size:10px;color:#666;font-weight:600;text-transform:uppercase;}
+      .slip-field p{font-size:13px;font-weight:600;margin-top:1px;border-bottom:1px solid #eee;padding-bottom:3px;}
+      .slip-photos{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+      .slip-photo-box{border:1px solid #bbb;border-radius:6px;overflow:hidden;aspect-ratio:4/3;}
       .slip-photo-box img{width:100%;height:100%;display:block;object-fit:contain;background:#f5f5f5;}
-      .slip-photo-label{font-size:10px;color:#fff;font-weight:700;text-align:center;padding:5px;background:#1a237e;text-transform:uppercase;letter-spacing:0.5px;}
-      .slip-photo-empty{height:90px;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:12px;background:#fafafa;}
-      .slip-footer{margin-top:22px;border-top:3px solid #f59e0b;padding-top:12px;display:flex;justify-content:space-between;align-items:flex-end;}
-      .slip-sig{border-top:1.5px solid #999;width:140px;text-align:center;padding-top:4px;font-size:10px;color:#666;font-weight:600;}
+      .slip-photo-label{font-size:10px;color:#555;font-weight:600;text-align:center;padding:4px;background:#eee;text-transform:uppercase;}
+      .slip-photo-empty{height:90px;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:12px;}
+      .slip-footer{margin-top:16px;border-top:1px solid #ddd;padding-top:8px;display:flex;justify-content:space-between;align-items:flex-end;}
+      .slip-sig{border-top:1px solid #999;width:130px;text-align:center;padding-top:3px;font-size:10px;color:#666;}
       .bill-slip-items{width:100%;border-collapse:collapse;margin:8px 0;}
-      .bill-slip-items th{text-align:left;padding:8px 10px;background:#1a237e;color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:0.4px;}
-      .bill-slip-items td{padding:8px 10px;border-bottom:1px solid #eee;font-size:12.5px;}
-      .bill-total-row{background:#fff8e1;}
-      .bill-total-row td{font-weight:800;font-size:14px;color:#1a237e;border-top:2px solid #f59e0b;}
+      .bill-slip-items th{text-align:left;padding:5px 8px;border-bottom:2px solid #1a237e;font-size:11px;color:#1a237e;text-transform:uppercase;}
+      .bill-slip-items td{padding:6px 8px;border-bottom:1px solid #eee;font-size:12px;}
+      .bill-total-row{background:#f0f4ff;}
+      .bill-total-row td{font-weight:700;font-size:13px;color:#1a237e;}
       .tabs{position:sticky;top:0;background:#1a237e;padding:12px;text-align:center;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,0.3);}
       .tab-btn{background:#283593;color:#fff;border:none;padding:10px 20px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;margin:0 4px;}
       .tab-btn.active{background:#4f8ef7;}
