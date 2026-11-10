@@ -1,0 +1,31 @@
+{
+  "name": "Prime Telecom",
+  "short_name": "Prime Telecom",
+  "description": "Prime Telecom Chandpur shop management app - job cards, customers, inventory, billing",
+  "start_url": "/prime-telecom/",
+  "scope": "/prime-telecom/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#1a73e8",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
